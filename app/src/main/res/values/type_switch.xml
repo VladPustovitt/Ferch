@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TypeSwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/consumption</item>
+        <item name="colorSwitchThumbNormal">@color/income</item>
+        <item name="android:colorForeground">@color/income</item>
+    </style>
+</resources>

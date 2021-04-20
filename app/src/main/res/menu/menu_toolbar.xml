@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/history"
+        app:showAsAction="ifRoom"
+        android:title="@string/history"
+        android:icon="@drawable/ic_history"/>
+
+    <item
+        android:id="@+id/statisticMonth"
+        app:showAsAction="ifRoom"
+        android:title="@string/statistic_month"
+        android:icon="@drawable/ic_statisticmonth"/>
+
+    <item
+        android:id="@+id/statisticYear"
+        app:showAsAction="ifRoom"
+        android:title="@string/statistic_year"
+        android:icon="@drawable/ic_statisticyear"/>
+</menu>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">FinanceApp</string>
+    <string name="history">История</string>
+    <string name="statistic_year">Год</string>
+    <string name="statistic_month">Месяц</string>
+    <string name="pig_bank">Копилка</string>
+    <string name="settings">Настройки</string>
+    <string name="user">Пользователь</string>
+    <string name="name_post">Название</string>
+    <string name="comment_post">Комментарий</string>
+    <string name="sum_post">Сумма</string>
+    <string name="date_post">Дата</string>
+    <string name="income">Доход</string>
+    <string name="consumption">Расход</string>
+    <string name="add_post">Добавить запись</string>
+    <string name="time">Время</string>
+</resources>

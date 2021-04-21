@@ -1,4 +1,4 @@
-package com.finalproject.financeapp;
+package com.finalproject.financeapp.ui;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +46,15 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
         }
     }
 
+    public void remote(int position){
+        notes.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Note> getNotes() {
+        return notes;
+    }
+
     @Override
     public int getItemCount() {
         return notes.size();
@@ -55,7 +63,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
     public static class NoteViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
         private NoteItemBinding itemBinding;
+
         private final NoteListAdapter listAdapter;
+
         public NoteViewHolder(@NonNull NoteItemBinding itemBinding, NoteListAdapter listAdapter) {
             super(itemBinding.getRoot());
             this.listAdapter = listAdapter;

@@ -1,4 +1,4 @@
-package com.finalproject.financeapp;
+package com.finalproject.financeapp.activities;
 
 import android.os.Bundle;
 
@@ -7,18 +7,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
- import com.finalproject.financeapp.databinding.MainActivityBinding;
+import com.finalproject.financeapp.R;
+import com.finalproject.financeapp.database.AppDatabase;
+import com.finalproject.financeapp.databinding.MainActivityBinding;
+import com.finalproject.financeapp.fragments.HistoryFragment;
 
 
 public class MainActivity extends AppCompatActivity {
     private MainActivityBinding binding;
     private FragmentManager fragmentManager;
-    final static String dataName = "database.db";
+    public final static String dataName = "database.db";
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppDatabase.getInstance(this);
         binding = MainActivityBinding.inflate(getLayoutInflater());
         openFragment(new HistoryFragment());
         binding.navigation.setOnNavigationItemSelectedListener(item -> {

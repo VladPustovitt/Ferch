@@ -1,13 +1,9 @@
-package com.finalproject.financeapp.database;
+package com.finalproject.frosch.database;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "Notes")
 public class Note {

@@ -1,4 +1,4 @@
-package com.finalproject.financeapp.activities;
+package com.finalproject.frosch.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -12,11 +12,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.finalproject.financeapp.utils.tasks.AddNoteToDatabaseTask;
-import com.finalproject.financeapp.database.AppDatabase;
-import com.finalproject.financeapp.database.Note;
-import com.finalproject.financeapp.database.TypeNote;
-import com.finalproject.financeapp.databinding.AddPostActivityBinding;
+import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
+import com.finalproject.frosch.database.AppDatabase;
+import com.finalproject.frosch.database.Note;
+import com.finalproject.frosch.database.TypeNote;
+import com.finalproject.frosch.databinding.AddPostActivityBinding;
 
 import java.util.Calendar;
 import java.util.Objects;

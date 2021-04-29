@@ -1,8 +1,7 @@
-package com.finalproject.financeapp.ui;
+package com.finalproject.frosch.ui;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +9,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.finalproject.financeapp.database.Note;
-import com.finalproject.financeapp.database.TypeNote;
-import com.finalproject.financeapp.databinding.NoteItemBinding;
+import com.finalproject.frosch.database.Note;
+import com.finalproject.frosch.database.TypeNote;
+import com.finalproject.frosch.databinding.HistoryFragmentBinding;
+import com.finalproject.frosch.databinding.NoteItemBinding;
 
 import java.util.ArrayList;
 
-public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteViewHolder> {
+public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>{
     private final ArrayList<Note> notes;
+    private HistoryFragmentBinding binding;
 
-    public NoteListAdapter(ArrayList<Note> notes) {
+    public NoteListAdapter(ArrayList<Note> notes,
+                           HistoryFragmentBinding binding) {
         this.notes = notes;
+        this.binding = binding;
     }
 
     @NonNull
@@ -61,8 +64,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
     }
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder
-    implements View.OnClickListener {
-        private NoteItemBinding itemBinding;
+    implements View.OnClickListener{
+        private final NoteItemBinding itemBinding;
 
         private final NoteListAdapter listAdapter;
 
@@ -70,13 +73,11 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
             super(itemBinding.getRoot());
             this.listAdapter = listAdapter;
             this.itemBinding = itemBinding;
-            this.itemBinding.note.setOnClickListener(this);
         }
-        
-        @SuppressLint("ShowToast")
+
         @Override
         public void onClick(View v) {
-            Log.d("Item", "Click");
+
         }
     }
 }

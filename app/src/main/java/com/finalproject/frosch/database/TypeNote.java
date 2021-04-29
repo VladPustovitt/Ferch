@@ -1,4 +1,4 @@
-package com.finalproject.financeapp.database;
+package com.finalproject.frosch.database;
 
 public enum TypeNote {
     INCOME("Income"),

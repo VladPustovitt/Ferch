@@ -1,4 +1,4 @@
-package com.finalproject.financeapp.activities;
+package com.finalproject.frosch.activities;
 
 import android.os.Bundle;
 
@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.finalproject.financeapp.R;
-import com.finalproject.financeapp.database.AppDatabase;
-import com.finalproject.financeapp.databinding.MainActivityBinding;
-import com.finalproject.financeapp.fragments.HistoryFragment;
+import com.finalproject.frosch.R;
+import com.finalproject.frosch.database.AppDatabase;
+import com.finalproject.frosch.databinding.MainActivityBinding;
+import com.finalproject.frosch.fragments.HistoryFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         binding = MainActivityBinding.inflate(getLayoutInflater());
         openFragment(new HistoryFragment());
         binding.navigation.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.history:
                     openFragment(new HistoryFragment());
                     return true;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
     }
 
-    public void openFragment(Fragment fragment){
+    public void openFragment(Fragment fragment) {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.activity, fragment)

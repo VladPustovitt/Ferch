@@ -1,4 +1,4 @@
-package com.finalproject.financeapp;
+package com.finalproject.frosch;
 
 import org.junit.Test;
 

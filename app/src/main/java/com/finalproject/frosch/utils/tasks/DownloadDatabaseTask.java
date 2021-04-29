@@ -1,9 +1,9 @@
-package com.finalproject.financeapp.utils.tasks;
+package com.finalproject.frosch.utils.tasks;
 
 import android.os.AsyncTask;
 
-import com.finalproject.financeapp.database.AppDatabase;
-import com.finalproject.financeapp.database.Note;
+import com.finalproject.frosch.database.AppDatabase;
+import com.finalproject.frosch.database.Note;
 
 import java.util.ArrayList;
 

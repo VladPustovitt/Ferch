@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FinanceApp</string>
+    <string name="app_name">Frosch</string>
     <string name="history">История</string>
     <string name="statistic_year">Год</string>
     <string name="statistic_month">Месяц</string>
@@ -14,4 +14,6 @@
     <string name="consumption">Расход</string>
     <string name="add_post">Добавить запись</string>
     <string name="time">Время</string>
+    <string name="undo_text">Вернуть запись?</string>
+    <string name="undo">Вернуть</string>
 </resources>

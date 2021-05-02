@@ -12,12 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
 import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.AddPostActivityBinding;
+import com.finalproject.frosch.utils.throwexeptions.StringException;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,22 +51,17 @@ public class AddPostActivity
                 String time = Objects.requireNonNull(binding.time.getText()).toString();
                 int sum = Integer.parseInt(Objects.requireNonNull(binding.sum.getText()).toString());
 
-                if (name.equals("") || name.matches("^\\s\\+")){
-                    throw new NullPointerException();
-                }
+                StringException.equalNull(name);
+                StringException.equalNull(comment);
+                StringException.equalNull(date);
+                StringException.equalNull(time);
 
-                if (comment.equals("") || comment.matches("^\\s\\+")){
-                    throw new NullPointerException();
-                }
-
-                Note note = new Note(type, name, comment, sum, date + " " + time);
+                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time));
                 new AddNoteToDatabaseTask(database).execute(note);
 
                 mainActivity();
-            } catch (NullPointerException e){
+            } catch (NullPointerException | NumberFormatException e){
                 Toast.makeText(this, "Все поля должны быть заполнены!", Toast.LENGTH_SHORT).show();
-            } catch (NumberFormatException e){
-                Toast.makeText(this, "Поле 'Сумма' должно быть заполнено!", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -118,14 +116,20 @@ public class AddPostActivity
         Calendar.getInstance().set(Calendar.MONTH, month);
         Calendar.getInstance().set(Calendar.DAY_OF_MONTH, dayOfMonth);
         binding.date.setText(
-                new StringBuilder().append(dayOfMonth).append(".")
-                        .append(month + 1).append(".").append(year));
+                new StringBuilder()
+                        .append(DateConvector.addZeros(Integer.toString(dayOfMonth)))
+                        .append(".")
+                        .append(DateConvector.addZeros(Integer.toString(month+1)))
+                        .append(".").append(year));
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Calendar.getInstance().set(Calendar.HOUR_OF_DAY, hourOfDay);
         Calendar.getInstance().set(Calendar.MINUTE, minute);
-        binding.time.setText(new StringBuilder().append(hourOfDay).append(":").append(minute));
+        binding.time.setText(new StringBuilder()
+                .append(DateConvector.addZeros(Integer.toString(hourOfDay)))
+                .append(":")
+                .append(DateConvector.addZeros(Integer.toString(minute))));
     }
 }

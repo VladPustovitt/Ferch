@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.finalproject.frosch.activities.AddPostActivity;
 import com.finalproject.frosch.ui.NoteListAdapter;
 import com.finalproject.frosch.database.AppDatabase;
+import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.tasks.DownloadDatabaseTask;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.databinding.HistoryFragmentBinding;

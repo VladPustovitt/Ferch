@@ -20,7 +20,7 @@ public class Note {
     private String comment;
 
     @ColumnInfo(name="date")
-    private String date;
+    private Long date;
 
     @ColumnInfo(name="sum")
     private int sum;
@@ -65,15 +65,15 @@ public class Note {
         this.comment = comment;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
-    public Note(int id, String type, String name, String comment, int sum, String date) {
+    public Note(int id, String type, String name, String comment, int sum, Long date) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -83,7 +83,7 @@ public class Note {
     }
 
     @Ignore
-    public Note(String type, String name, String comment, int sum, String date) {
+    public Note(String type, String name, String comment, int sum, Long date) {
         this.type = type;
         this.name = name;
         this.comment = comment;

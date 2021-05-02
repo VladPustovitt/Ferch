@@ -21,6 +21,6 @@ public interface NoteDao {
     @Query("SELECT * FROM Notes")
     List<Note> getAllNotes();
 
-    @Query("SELECT * FROM Notes WHERE date LIKE :date")
-    List<Note> getNotesForDate(String date);
+    @Query("SELECT * FROM Notes WHERE date BETWEEN :date1 AND :date2")
+    List<Note> getNotesForDate(Long date1, Long date2);
 }

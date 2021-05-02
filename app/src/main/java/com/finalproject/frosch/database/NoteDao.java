@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Dao
@@ -18,9 +19,6 @@ public interface NoteDao {
     @Query("DELETE FROM Notes")
     void deleteAll();
 
-    @Query("SELECT * FROM Notes")
+    @Query("SELECT * FROM Notes ORDER BY date DESC")
     List<Note> getAllNotes();
-
-    @Query("SELECT * FROM Notes WHERE date BETWEEN :date1 AND :date2")
-    List<Note> getNotesForDate(Long date1, Long date2);
 }

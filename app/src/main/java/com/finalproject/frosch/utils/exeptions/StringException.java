@@ -1,4 +1,4 @@
-package com.finalproject.frosch.utils.throwexeptions;
+package com.finalproject.frosch.utils.exeptions;
 
 public class StringException {
     public static void equalNull(String s){

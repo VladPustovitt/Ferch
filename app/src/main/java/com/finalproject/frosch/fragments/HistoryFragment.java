@@ -7,27 +7,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.finalproject.frosch.activities.AddPostActivity;
+import com.finalproject.frosch.ui.NoteHeader;
 import com.finalproject.frosch.ui.NoteListAdapter;
 import com.finalproject.frosch.database.AppDatabase;
-import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.tasks.DownloadDatabaseTask;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.databinding.HistoryFragmentBinding;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
 
 public class HistoryFragment extends Fragment {
     private HistoryFragmentBinding historyBinding;
     private NoteListAdapter noteAdapter;
-    private ArrayList<Note> noteList;
+    private LinkedList<Note> noteList;
     private AppDatabase database;
 
     @Nullable
@@ -46,25 +44,18 @@ public class HistoryFragment extends Fragment {
     }
 
     private void setUpRecyclerView(@NonNull LayoutInflater inflater){
-        if (noteList == null){
-            noteList = new ArrayList<>();
-            try {
-                noteList = new DownloadDatabaseTask().execute(database).get();
-                Collections.reverse(noteList);
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            noteList.clear();
-            try {
-                noteList.addAll(new DownloadDatabaseTask().execute(database).get());
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
+        noteList = new LinkedList<>();
+        try {
+            noteList = new LinkedList<>(
+                    new DownloadDatabaseTask().execute(database).get());
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
         }
 
+        NoteHeader.addNoteHeadersInList(noteList);
+
         if (historyBinding.historyList.getAdapter() == null){
-            noteAdapter = new NoteListAdapter(noteList, historyBinding);
+            noteAdapter = new NoteListAdapter(noteList);
             historyBinding.historyList.setLayoutManager(
                     new LinearLayoutManager(inflater.getContext()));
             historyBinding.historyList.setAdapter(noteAdapter);

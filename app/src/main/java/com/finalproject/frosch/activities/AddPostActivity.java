@@ -13,15 +13,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.finalproject.frosch.utils.convertor.DateConvector;
+import com.finalproject.frosch.utils.exeptions.TimeException;
 import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
 import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.AddPostActivityBinding;
-import com.finalproject.frosch.utils.throwexeptions.StringException;
+import com.finalproject.frosch.utils.exeptions.StringException;
 
-import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -56,12 +57,17 @@ public class AddPostActivity
                 StringException.equalNull(date);
                 StringException.equalNull(time);
 
+                if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
+                    throw new TimeException("Такое время ещё не наступило. Измените дату или время");
+
                 Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time));
                 new AddNoteToDatabaseTask(database).execute(note);
 
                 mainActivity();
             } catch (NullPointerException | NumberFormatException e){
                 Toast.makeText(this, "Все поля должны быть заполнены!", Toast.LENGTH_SHORT).show();
+            } catch (TimeException e){
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         });

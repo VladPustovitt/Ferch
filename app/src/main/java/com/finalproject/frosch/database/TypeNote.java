@@ -2,7 +2,9 @@ package com.finalproject.frosch.database;
 
 public enum TypeNote {
     INCOME("Income"),
-    CONSUMPTION("Consumption");
+    CONSUMPTION("Consumption"),
+    HEADER("Header");
+
     private final String name;
     TypeNote(String name) {
         this.name = name;

@@ -1,12 +1,8 @@
 package com.finalproject.frosch.ui;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.ColumnInfo;
 
 import com.finalproject.frosch.R;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.DateHeaderBinding;
-import com.finalproject.frosch.databinding.HistoryFragmentBinding;
 import com.finalproject.frosch.databinding.NoteItemBinding;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -82,8 +74,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private int getIconId(String icon){
         switch (icon){
-            case "ic_icon": return R.drawable.ic_dish;
-            default: return R.drawable.ic_dish;
+            case "ic_icon": return R.drawable.ic_dish_post;
+            default: return R.drawable.ic_dish_post;
         }
     }
 

@@ -55,7 +55,7 @@ public class AddPostActivity
             }
 
             if (this.color == null){
-                this.color = "#"+Integer.toHexString(ContextCompat.getColor(this, R.color.income));
+                this.color = "#"+Integer.toHexString(Color.BLACK);
             }
             try {
                 String name = Objects.requireNonNull(binding.name.getText()).toString();

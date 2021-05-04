@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<icons xmlns:android="http://schemas.android.com/apk/res/android">
+    <category id="0" name="Расходы">
+        <icon id="0" src="@drawable/ic_apartment_post"/>
+        <icon id="1" src="@drawable/ic_book_post"/>
+        <icon id="2" src="@drawable/ic_chef_suit_post"/>
+        <icon id="3" src="@drawable/ic_coding_post"/>
+        <icon id="4" src="@drawable/ic_delivery_man_post"/>
+        <icon id="5" src="@drawable/ic_devices_post"/>
+        <icon id="6" src="@drawable/ic_dish_post"/>
+        <icon id="7" src="@drawable/ic_grocery_post"/>
+        <icon id="8" src="@drawable/ic_popcorn_post"/>
+        <icon id="9" src="@drawable/ic_sport_post"/>
+        <icon id="10" src="@drawable/ic_subscribe_post"/>
+        <icon id="11" src="@drawable/ic_subway_post"/>
+        <icon id="12" src="@drawable/ic_utilities_post"/>
+    </category>
+    <category id="1" name="Доходы">
+
+    </category>
+</icons>

@@ -59,23 +59,15 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ImageView view = ((NoteViewHolder) holder).itemBinding.icon;
                 GradientDrawable drawable = (GradientDrawable) view.getBackground();
                 String colorString = note.getColor();
-                Log.e("COLOR", colorString);
                 int color = Color.parseColor(colorString);
                 drawable.setColor(color);
 
-                ((NoteViewHolder) holder).itemBinding.icon.setImageResource(getIconId(note.getIcon()));
+                ((NoteViewHolder) holder).itemBinding.icon.setImageResource(note.getIcon());
                 break;
             case 1:
                 NoteHeader header = (NoteHeader)notes.get(position);
                 ((HeaderViewHolder) holder).headerBinding.headerTitle.setText(header.getName());
                 break;
-        }
-    }
-
-    private int getIconId(String icon){
-        switch (icon){
-            case "ic_icon": return R.drawable.ic_dish_post;
-            default: return R.drawable.ic_dish_post;
         }
     }
 

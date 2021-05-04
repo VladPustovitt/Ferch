@@ -28,6 +28,9 @@ public class Note {
     @ColumnInfo(name="color")
     private String color;
 
+    @ColumnInfo(name="icon")
+    private int icon;
+
     public String getColor() {
         return color;
     }
@@ -36,16 +39,13 @@ public class Note {
         this.color = color;
     }
 
-    public String getIcon() {
+    public int getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(int icon) {
         this.icon = icon;
     }
-
-    @ColumnInfo(name="icon")
-    private String icon;
 
     public int getSum() {
         return sum;
@@ -96,7 +96,7 @@ public class Note {
     }
 
     public Note(int id, String type, String name, String comment,
-                int sum, Long date, String color) {
+                int sum, Long date, String color, int icon) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -104,19 +104,19 @@ public class Note {
         this.sum = sum;
         this.date = date;
         this.color = color;
-        this.icon = "ic_dish";
+        this.icon = icon;
     }
 
     @Ignore
     public Note(String type, String name, String comment,
-                int sum, Long date, String color) {
+                int sum, Long date, String color, int icon) {
         this.type = type;
         this.name = name;
         this.comment = comment;
         this.sum = sum;
         this.date = date;
         this.color = color;
-        this.icon = "ic_dish";
+        this.icon = icon;
     }
 
     @Override

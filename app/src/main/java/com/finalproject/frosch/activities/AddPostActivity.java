@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.finalproject.frosch.R;
+import com.finalproject.frosch.ui.LoaderIconPack;
 import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.exeptions.TimeException;
 import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
@@ -28,8 +28,15 @@ import com.finalproject.frosch.utils.exeptions.StringException;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
+import com.maltaisn.icondialog.IconDialog;
+import com.maltaisn.icondialog.IconDialogSettings;
+import com.maltaisn.icondialog.data.Icon;
+import com.maltaisn.icondialog.pack.IconPack;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -37,11 +44,13 @@ public class AddPostActivity
         extends AppCompatActivity
         implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener, ColorPickerDialogListener {
+        TimePickerDialog.OnTimeSetListener, ColorPickerDialogListener,
+        IconDialog.Callback{
     private AddPostActivityBinding binding;
     private AppDatabase database;
     private final AtomicReference<String> typeAtomic = new AtomicReference<>();
     private String color;
+    private Integer icon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +65,10 @@ public class AddPostActivity
 
             if (this.color == null){
                 this.color = "#"+Integer.toHexString(Color.BLACK);
+            }
+
+            if(this.icon == null){
+                this.icon = getResourceIdByIconId(-1);
             }
             try {
                 String name = Objects.requireNonNull(binding.name.getText()).toString();
@@ -72,7 +85,7 @@ public class AddPostActivity
                 if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
                     throw new TimeException("Такое время ещё не наступило. Измените дату или время");
 
-                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color);
+                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color, icon);
                 new AddNoteToDatabaseTask(database).execute(note);
 
                 mainActivity();
@@ -116,6 +129,9 @@ public class AddPostActivity
         });
 
         binding.color.setOnClickListener(this);
+
+        binding.icon.setImageResource(R.drawable.ic_dish_post);
+        binding.icon.setOnClickListener(this);
     }
 
     @Override
@@ -127,7 +143,18 @@ public class AddPostActivity
             case R.id.color:
                 createColorPickerDialog();
                 break;
+            case R.id.icon:
+                createIconPickerDialog();
+                break;
         }
+    }
+
+    private void createIconPickerDialog() {
+        IconDialog dialog = (IconDialog)getSupportFragmentManager().findFragmentByTag("icon-dialog");
+        IconDialog iconDialog = dialog != null? dialog:
+                IconDialog.newInstance(new IconDialogSettings.Builder().build());
+        Log.d("Icon Picker", "Click icon");
+        iconDialog.show(getSupportFragmentManager(), "icon-dialog");
     }
 
     private void createColorPickerDialog(){
@@ -188,5 +215,54 @@ public class AddPostActivity
     @Override
     public void onDialogDismissed(int dialogId) {
         Log.d("AddPostActivity", "onDialogDismissed() called with id ["+dialogId+"]");
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public IconPack getIconDialogIconPack() {
+        return (new LoaderIconPack(this)).getIconPack();
+    }
+
+    @Override
+    public void onIconDialogCancelled() {}
+
+    @Override
+    public void onIconDialogIconsSelected(@NotNull IconDialog iconDialog, @NotNull List<Icon> list) {
+        if(list.size() == 1){
+            Icon icon = list.get(0);
+            this.icon = getResourceIdByIconId(icon.getId());
+            binding.icon.setImageResource(this.icon);
+        } else if (list.size() == 0){
+            Toast.makeText(this, "Выберите иконку", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Надо выбрать ОДНУ иконку", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int getResourceIdByIconId(int id){
+        switch (id){
+            case 0: return R.drawable.ic_apartment_post;
+            case 1: return R.drawable.ic_book_post;
+            case 2: return R.drawable.ic_chef_suit_post;
+            case 3: return R.drawable.ic_coding_post;
+            case 4: return R.drawable.ic_delivery_man_post;
+            case 5: return R.drawable.ic_devices_post;
+            case 7: return R.drawable.ic_grocery_post;
+            case 8: return R.drawable.ic_popcorn_post;
+            case 9: return R.drawable.ic_sport_post;
+            case 10: return R.drawable.ic_subscribe_post;
+            case 11: return R.drawable.ic_subway_post;
+            case 12: return R.drawable.ic_utilities_post;
+            case 13: return R.drawable.ic_bingo_post;
+            case 14: return R.drawable.ic_business_and_finance_post;
+            case 15: return R.drawable.ic_business_post;
+            case 16: return R.drawable.ic_medal_post;
+            case 17: return R.drawable.ic_money_post;
+            case 18: return R.drawable.ic_money_transfer_post;
+            case 19: return R.drawable.ic_scholarship_post;
+            case 20: return R.drawable.ic_stock_post;
+            case 21: return R.drawable.ic_working_post;
+            default: return R.drawable.ic_dish_post;
+        }
     }
 }

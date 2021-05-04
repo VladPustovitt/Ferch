@@ -33,13 +33,25 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/color"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label"
         android:background="@drawable/circle_button"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/icon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.624"
+        app:layout_constraintStart_toEndOf="@+id/color"
+        app:layout_constraintTop_toBottomOf="@+id/label"
+        tools:src="@drawable/ic_dish_post"
+        android:background="@drawable/round_button"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/name"
@@ -125,7 +137,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
         android:text="@string/consumption"
         android:textColor="@color/consumption"
@@ -137,8 +149,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/income"
         android:textColor="@color/income"
         android:textSize="33sp"
@@ -149,10 +161,11 @@
         android:id="@+id/type"
         android:layout_width="54dp"
         android:layout_height="38dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:paddingVertical="12dp"
         android:theme="@style/TypeSwitch"
         app:layout_constraintEnd_toStartOf="@id/textView2"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toEndOf="@id/textView"
         app:layout_constraintTop_toBottomOf="@id/time" />
 

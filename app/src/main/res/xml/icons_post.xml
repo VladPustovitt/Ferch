@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<icons xmlns:android="http://schemas.android.com/apk/res/android">
+<icons xmlns:android="http://schemas.android.com/apk/res/android"
+    width="64" height="64">
     <category id="0" name="Расходы">
         <icon id="0" src="@drawable/ic_apartment_post"/>
         <icon id="1" src="@drawable/ic_book_post"/>

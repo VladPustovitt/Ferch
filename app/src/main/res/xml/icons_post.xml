@@ -16,6 +16,14 @@
         <icon id="12" src="@drawable/ic_utilities_post"/>
     </category>
     <category id="1" name="Доходы">
-
+        <icon id="13" src="@drawable/ic_bingo_post"/>
+        <icon id="14" src="@drawable/ic_business_and_finance_post"/>
+        <icon id="15" src="@drawable/ic_business_post"/>
+        <icon id="16" src="@drawable/ic_medal_post"/>
+        <icon id="17" src="@drawable/ic_money_post"/>
+        <icon id="18" src="@drawable/ic_money_transfer_post"/>
+        <icon id="19" src="@drawable/ic_scholarship_post"/>
+        <icon id="20" src="@drawable/ic_stock_post"/>
+        <icon id="21" src="@drawable/ic_working_post"/>
     </category>
 </icons>

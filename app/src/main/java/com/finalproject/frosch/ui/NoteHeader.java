@@ -14,19 +14,21 @@ public class NoteHeader extends Note {
     private final String header;
 
     public NoteHeader(String header){
-        super(TypeNote.HEADER.getName(), header, TypeNote.HEADER.getName(), 0, 0L);
+        super(TypeNote.HEADER.getName(), header, TypeNote.HEADER.getName(), 0, 0L, "");
         this.header = header;
     }
 
     public static void addNoteHeadersInList(LinkedList<Note> list){
-        String lastHeader = DateConvector.msToDateString(list.get(0).getDate()).split(" ")[0];
-        list.addFirst(new NoteHeader(DateConvector.getDateString(lastHeader)));
-        for(int i = 0; i < list.size(); i++){
-            if(!(list.get(i) instanceof NoteHeader)){
-                String date = DateConvector.msToDateString(list.get(i).getDate()).split(" ")[0];
-                if(!date.equals(lastHeader)){
-                    list.add(i, new NoteHeader(DateConvector.getDateString(date)));
-                    lastHeader = date;
+        if(list.size() != 0) {
+            String lastHeader = DateConvector.msToDateString(list.get(0).getDate()).split(" ")[0];
+            list.addFirst(new NoteHeader(DateConvector.getDateString(lastHeader)));
+            for (int i = 0; i < list.size(); i++) {
+                if (!(list.get(i) instanceof NoteHeader)) {
+                    String date = DateConvector.msToDateString(list.get(i).getDate()).split(" ")[0];
+                    if (!date.equals(lastHeader)) {
+                        list.add(i, new NoteHeader(DateConvector.getDateString(date)));
+                        lastHeader = date;
+                    }
                 }
             }
         }

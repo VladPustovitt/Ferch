@@ -25,6 +25,28 @@ public class Note {
     @ColumnInfo(name="sum")
     private int sum;
 
+    @ColumnInfo(name="color")
+    private String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    @ColumnInfo(name="icon")
+    private String icon;
+
     public int getSum() {
         return sum;
     }
@@ -73,22 +95,28 @@ public class Note {
         this.date = date;
     }
 
-    public Note(int id, String type, String name, String comment, int sum, Long date) {
+    public Note(int id, String type, String name, String comment,
+                int sum, Long date, String color) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.comment = comment;
         this.sum = sum;
         this.date = date;
+        this.color = color;
+        this.icon = "ic_dish";
     }
 
     @Ignore
-    public Note(String type, String name, String comment, int sum, Long date) {
+    public Note(String type, String name, String comment,
+                int sum, Long date, String color) {
         this.type = type;
         this.name = name;
         this.comment = comment;
         this.sum = sum;
         this.date = date;
+        this.color = color;
+        this.icon = "ic_dish";
     }
 
     @Override

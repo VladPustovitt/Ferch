@@ -16,4 +16,6 @@
     <string name="time">Время</string>
     <string name="undo_text">Вернуть запись?</string>
     <string name="undo">Вернуть</string>
+    <string name="color_picker_dialog_title">Выберите цвет</string>
+    <string name="icon">icon</string>
 </resources>

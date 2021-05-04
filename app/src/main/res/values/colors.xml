@@ -11,4 +11,18 @@
     <color name="current_color">#E0AB15</color>
     <color name="consumption">#C90C0C</color>
     <color name="income">#1C9A21</color>
+    <color name="light_purple">#CA0CE9</color>
+    <color name="light_blue">#6171FF</color>
+    <color name="green">#2BCA28</color>
+    <color name="red">#EC1212</color>
+
+    <array name="post_color">
+        <item>@color/income</item>
+        <item>@color/consumption</item>
+        <item>@color/light_purple</item>
+        <item>@color/light_blue</item>
+        <item>@color/green</item>
+        <item>@color/toolbar_color</item>
+        <item>@color/red</item>
+    </array>
 </resources>

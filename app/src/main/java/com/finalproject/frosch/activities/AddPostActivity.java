@@ -3,7 +3,10 @@ package com.finalproject.frosch.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -11,7 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.finalproject.frosch.R;
 import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.exeptions.TimeException;
 import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
@@ -20,9 +25,11 @@ import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.AddPostActivityBinding;
 import com.finalproject.frosch.utils.exeptions.StringException;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import com.jaredrummler.android.colorpicker.ColorShape;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,10 +37,11 @@ public class AddPostActivity
         extends AppCompatActivity
         implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener, ColorPickerDialogListener {
     private AddPostActivityBinding binding;
     private AppDatabase database;
     private final AtomicReference<String> typeAtomic = new AtomicReference<>();
+    private String color;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +52,10 @@ public class AddPostActivity
             String type = typeAtomic.get();
             if (type == null){
                 type = TypeNote.INCOME.getName();
+            }
+
+            if (this.color == null){
+                this.color = "#"+Integer.toHexString(ContextCompat.getColor(this, R.color.income));
             }
             try {
                 String name = Objects.requireNonNull(binding.name.getText()).toString();
@@ -60,7 +72,7 @@ public class AddPostActivity
                 if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
                     throw new TimeException("Такое время ещё не наступило. Измените дату или время");
 
-                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time));
+                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color);
                 new AddNoteToDatabaseTask(database).execute(note);
 
                 mainActivity();
@@ -69,7 +81,6 @@ public class AddPostActivity
             } catch (TimeException e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
         });
         setContentView(binding.getRoot());
     }
@@ -103,12 +114,37 @@ public class AddPostActivity
                 typeAtomic.set(TypeNote.INCOME.getName());
             }
         });
+
+        binding.color.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v){
-        mainActivity();
+        switch (v.getId()){
+            case R.id.last_button:
+                mainActivity();
+                break;
+            case R.id.color:
+                createColorPickerDialog();
+                break;
+        }
     }
+
+    private void createColorPickerDialog(){
+        ColorPickerDialog.newBuilder()
+                .setColor(Color.BLACK)
+                .setDialogTitle(ColorPickerDialog.TYPE_CUSTOM)
+                .setPresets(getResources().getIntArray(R.array.post_color))
+                .setColorShape(ColorShape.CIRCLE)
+                .setDialogId(0)
+                .setDialogTitle(R.string.color_picker_dialog_title)
+                .setAllowPresets(false)
+                .setAllowCustom(false)
+                .setShowColorShades(false)
+                .show(this);
+        Log.e("ColorPicker", "Color");
+    }
+
 
     private void mainActivity(){
         Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
@@ -137,5 +173,20 @@ public class AddPostActivity
                 .append(DateConvector.addZeros(Integer.toString(hourOfDay)))
                 .append(":")
                 .append(DateConvector.addZeros(Integer.toString(minute))));
+    }
+
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        switch (dialogId){
+            case 0:
+                this.color = "#"+Integer.toHexString(color);
+                ((GradientDrawable)this.binding.color.getBackground()).setColor(color);
+                break;
+        }
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+        Log.d("AddPostActivity", "onDialogDismissed() called with id ["+dialogId+"]");
     }
 }

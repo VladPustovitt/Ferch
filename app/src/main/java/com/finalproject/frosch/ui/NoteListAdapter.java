@@ -1,13 +1,22 @@
 package com.finalproject.frosch.ui;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.ColumnInfo;
 
 import com.finalproject.frosch.R;
 import com.finalproject.frosch.database.Note;
@@ -54,11 +63,27 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     ((NoteViewHolder) holder).itemBinding.sum.setText("- " + note.getSum() + " ₽");
                     ((NoteViewHolder) holder).itemBinding.sum.setTextColor(Color.parseColor("#C90C0C"));
                 }
+
+                ImageView view = ((NoteViewHolder) holder).itemBinding.icon;
+                GradientDrawable drawable = (GradientDrawable) view.getBackground();
+                String colorString = note.getColor();
+                Log.e("COLOR", colorString);
+                int color = Color.parseColor(colorString);
+                drawable.setColor(color);
+
+                ((NoteViewHolder) holder).itemBinding.icon.setImageResource(getIconId(note.getIcon()));
                 break;
             case 1:
                 NoteHeader header = (NoteHeader)notes.get(position);
                 ((HeaderViewHolder) holder).headerBinding.headerTitle.setText(header.getName());
                 break;
+        }
+    }
+
+    private int getIconId(String icon){
+        switch (icon){
+            case "ic_icon": return R.drawable.ic_dish;
+            default: return R.drawable.ic_dish;
         }
     }
 
@@ -77,17 +102,6 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return 0;
         }
         return 0;
-    }
-
-    public boolean isHeader(int position){
-        try {
-            if (((NoteHeader) notes.get(position)).getHeader() != null) {
-                return true;
-            }
-        } catch (ClassCastException e){
-            return false;
-        }
-        return false;
     }
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder

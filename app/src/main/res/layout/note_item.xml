@@ -13,78 +13,73 @@
     android:layout_gravity="center_horizontal"
     android:layout_margin="8dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/round_icon_note"
+        android:contentDescription="@string/icon"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.476"
+        tools:src="@drawable/ic_dish" />
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:background="@drawable/round_icon_note"
-            android:contentDescription="icon"
-            android:padding="4dp"
-            android:src="@drawable/ic_dish"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="266dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.483">
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="266dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="68dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/icon"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.483">
-
-            <GridLayout
-                android:id="@+id/gridLayout"
-                android:layout_width="176dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:text="Перекус в кафе" />
-
-                <TextView
-                    android:id="@+id/comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    tools:text="Г. Москва, ул. Арбат, д.2" />
-
-            </GridLayout>
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/sum"
-                android:layout_width="90dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical|end"
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/gridLayout"
-                tools:layout_editor_absoluteY="0dp"
-                tools:text="-1000 ₽"
-                tools:textColor="#C90C0C" />
+                tools:text="Перекус в кафе" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:text="Г. Москва, ул. Арбат, д.2" />
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/sum"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/gridLayout"
+            tools:layout_editor_absoluteY="0dp"
+            tools:text="-1000 ₽"
+            tools:textColor="#C90C0C" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

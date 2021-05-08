@@ -34,6 +34,28 @@ public class NoteHeader extends Note {
         }
     }
 
+    public static void removeUnlessHeader(LinkedList<Note> list){
+        if(list.size() != 0){
+            for(int i = 1; i < list.size(); i++){
+                if(isHeader(list.get(i-1)) && isHeader(list.get(i))){
+                    list.remove(i-1);
+                }
+            }
+            if(isHeader(list.getLast())) list.removeLast();
+        }
+    }
+
+    public static boolean isHeader(Note note){
+        try {
+            if (((NoteHeader) note).getHeader() != null) {
+                return true;
+            }
+        } catch (ClassCastException e){
+            return false;
+        }
+        return false;
+    }
+
     public String getHeader() {
         return header;
     }

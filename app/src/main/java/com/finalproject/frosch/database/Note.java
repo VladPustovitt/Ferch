@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "Notes")
 public class Note {
     @PrimaryKey(autoGenerate = true)
@@ -129,5 +131,25 @@ public class Note {
                 ", date='" + date + '\'' +
                 ", sum=" + sum +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note = (Note) o;
+        return id == note.id &&
+                sum == note.sum &&
+                icon == note.icon &&
+                Objects.equals(type, note.type) &&
+                Objects.equals(name, note.name) &&
+                Objects.equals(comment, note.comment) &&
+                Objects.equals(date, note.date) &&
+                Objects.equals(color, note.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, name, comment, date, sum, color, icon);
     }
 }

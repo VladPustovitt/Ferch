@@ -1,6 +1,7 @@
 package com.finalproject.frosch.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -13,10 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.finalproject.frosch.R;
+import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.DateHeaderBinding;
 import com.finalproject.frosch.databinding.NoteItemBinding;
+import com.finalproject.frosch.utils.tasks.DeleteNoteInDatabaseTask;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.LinkedList;
 
@@ -37,22 +41,12 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         NoteItemBinding binding = NoteItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent,false);
-        return new NoteViewHolder(binding);
+        return new NoteViewHolder(binding, this);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        switch (holder.getItemViewType()){
-//            case 0:
-//                Note note = notes.get(position);
-//                holder.bind();
-//                break;
-//            case 1:
-//                NoteHeader header = (NoteHeader)notes.get(position);
-//
-//                break;
-//        }
         ((AbstractViewHolder) holder).bind(notes.get(position));
     }
 
@@ -63,14 +57,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        try {
-            if (((NoteHeader) notes.get(position)).getHeader() != null) {
-                return 1;
-            }
-        } catch (ClassCastException e){
-            return 0;
-        }
-        return 0;
+        return NoteHeader.isHeader(notes.get(position))? 1: 0;
     }
 
     public abstract static class AbstractViewHolder extends RecyclerView.ViewHolder{
@@ -82,17 +69,14 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public abstract void bind(Note note);
     }
 
-    public static class NoteViewHolder extends AbstractViewHolder implements View.OnClickListener{
+    public static class NoteViewHolder extends AbstractViewHolder{
         private final NoteItemBinding itemBinding;
+        private final NoteListAdapter adapter;
 
-        public NoteViewHolder(@NonNull NoteItemBinding itemBinding) {
+        public NoteViewHolder(@NonNull NoteItemBinding itemBinding, NoteListAdapter adapter) {
             super(itemBinding.getRoot());
             this.itemBinding = itemBinding;
-        }
-
-        @Override
-        public void onClick(View v) {
-
+            this.adapter = adapter;
         }
 
         public void bind(Note note){
@@ -111,6 +95,24 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             int color = Color.parseColor(colorString);
             drawable.setColor(color);
             this.itemBinding.icon.setImageResource(note.getIcon());
+            this.itemBinding.note.setOnClickListener(v -> {
+                String[] items = new String[]{"Изменить", "Удалить"};
+                new MaterialAlertDialogBuilder(v.getContext())
+                        .setTitle(R.string.choose_action)
+                        .setItems(items, ((dialog, which) -> {
+                            switch (which){
+                                case 0:
+                                    break;
+                                case 1:
+                                    new DeleteNoteInDatabaseTask(AppDatabase.getInstance(v.getContext()))
+                                            .execute(note);
+                                    this.adapter.notes.remove(note);
+                                    NoteHeader.removeUnlessHeader(this.adapter.notes);
+                                    this.adapter.notifyDataSetChanged();
+                            }
+                        }))
+                        .show();
+            });
         }
     }
 

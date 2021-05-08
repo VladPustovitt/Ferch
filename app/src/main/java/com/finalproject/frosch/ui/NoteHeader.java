@@ -1,5 +1,7 @@
 package com.finalproject.frosch.ui;
 
+import androidx.annotation.NonNull;
+
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.utils.convertor.DateConvector;
@@ -14,7 +16,7 @@ public class NoteHeader extends Note {
     private final String header;
 
     public NoteHeader(String header){
-        super(TypeNote.HEADER.getName(), header, TypeNote.HEADER.getName(), 0, 0L, "", 0);
+        super(TypeNote.HEADER.getName(), header, TypeNote.HEADER.getName(), 0, 0L, "", 0, "");
         this.header = header;
     }
 
@@ -60,6 +62,7 @@ public class NoteHeader extends Note {
         return header;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "NoteHeader{" +

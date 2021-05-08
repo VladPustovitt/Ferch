@@ -1,5 +1,6 @@
 package com.finalproject.frosch.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -33,10 +34,12 @@ public class Note {
     @ColumnInfo(name="icon")
     private int icon;
 
+    @ColumnInfo(name="hashTag")
+    private String hashTag;
+
     public String getColor() {
         return color;
     }
-
     public void setColor(String color) {
         this.color = color;
     }
@@ -44,7 +47,6 @@ public class Note {
     public int getIcon() {
         return icon;
     }
-
     public void setIcon(int icon) {
         this.icon = icon;
     }
@@ -52,7 +54,6 @@ public class Note {
     public int getSum() {
         return sum;
     }
-
     public void setSum(int sum) {
         this.sum = sum;
     }
@@ -60,7 +61,6 @@ public class Note {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -68,7 +68,6 @@ public class Note {
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
@@ -76,7 +75,6 @@ public class Note {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -84,7 +82,6 @@ public class Note {
     public String getComment() {
         return comment;
     }
-
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -92,13 +89,19 @@ public class Note {
     public Long getDate() {
         return date;
     }
-
     public void setDate(Long date) {
         this.date = date;
     }
 
+    public String getHashTag() {
+        return hashTag;
+    }
+    public void setHashTag(String hashTag) {
+        this.hashTag = hashTag;
+    }
+
     public Note(int id, String type, String name, String comment,
-                int sum, Long date, String color, int icon) {
+                int sum, Long date, String color, int icon, String hashTag) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -107,11 +110,12 @@ public class Note {
         this.date = date;
         this.color = color;
         this.icon = icon;
+        this.hashTag = hashTag;
     }
 
     @Ignore
     public Note(String type, String name, String comment,
-                int sum, Long date, String color, int icon) {
+                int sum, Long date, String color, int icon, String hashTag) {
         this.type = type;
         this.name = name;
         this.comment = comment;
@@ -119,18 +123,7 @@ public class Note {
         this.date = date;
         this.color = color;
         this.icon = icon;
-    }
-
-    @Override
-    public String toString() {
-        return "Note{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", comment='" + comment + '\'' +
-                ", date='" + date + '\'' +
-                ", sum=" + sum +
-                '}';
+        this.hashTag = hashTag;
     }
 
     @Override

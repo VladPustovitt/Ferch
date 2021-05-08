@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.finalproject.frosch.R;
+import com.finalproject.frosch.database.HashTag;
 import com.finalproject.frosch.ui.LoaderIconPack;
 import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.exeptions.TimeException;
@@ -51,6 +54,7 @@ public class AddPostActivity
     private final AtomicReference<String> typeAtomic = new AtomicReference<>();
     private String color;
     private Integer icon;
+    private String hashTag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class AddPostActivity
             }
 
             if(this.icon == null){
-                this.icon = getResourceIdByIconId(-1);
+                this.icon = getResourceIdAndHashTagByIconId(-1).first;
             }
             try {
                 String name = Objects.requireNonNull(binding.name.getText()).toString();
@@ -85,7 +89,7 @@ public class AddPostActivity
                 if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
                     throw new TimeException("Такое время ещё не наступило. Измените дату или время");
 
-                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color, icon);
+                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color, icon, hashTag);
                 new AddNoteToDatabaseTask(database).execute(note);
 
                 mainActivity();
@@ -230,7 +234,9 @@ public class AddPostActivity
     public void onIconDialogIconsSelected(@NotNull IconDialog iconDialog, @NotNull List<Icon> list) {
         if(list.size() == 1){
             Icon icon = list.get(0);
-            this.icon = getResourceIdByIconId(icon.getId());
+            Pair<Integer, String> iconAndHashTag = getResourceIdAndHashTagByIconId(icon.getId());
+            this.icon = iconAndHashTag.first;
+            this.hashTag = iconAndHashTag.second;
             binding.icon.setImageResource(this.icon);
         } else if (list.size() == 0){
             Toast.makeText(this, "Выберите иконку", Toast.LENGTH_SHORT).show();
@@ -239,30 +245,52 @@ public class AddPostActivity
         }
     }
 
-    private int getResourceIdByIconId(int id){
+    private Pair<Integer, String> getResourceIdAndHashTagByIconId(int id){
         switch (id){
-            case 0: return R.drawable.ic_apartment_post;
-            case 1: return R.drawable.ic_book_post;
-            case 2: return R.drawable.ic_chef_suit_post;
-            case 3: return R.drawable.ic_coding_post;
-            case 4: return R.drawable.ic_delivery_man_post;
-            case 5: return R.drawable.ic_devices_post;
-            case 7: return R.drawable.ic_grocery_post;
-            case 8: return R.drawable.ic_popcorn_post;
-            case 9: return R.drawable.ic_sport_post;
-            case 10: return R.drawable.ic_subscribe_post;
-            case 11: return R.drawable.ic_subway_post;
-            case 12: return R.drawable.ic_utilities_post;
-            case 13: return R.drawable.ic_bingo_post;
-            case 14: return R.drawable.ic_business_and_finance_post;
-            case 15: return R.drawable.ic_business_post;
-            case 16: return R.drawable.ic_medal_post;
-            case 17: return R.drawable.ic_money_post;
-            case 18: return R.drawable.ic_money_transfer_post;
-            case 19: return R.drawable.ic_scholarship_post;
-            case 20: return R.drawable.ic_stock_post;
-            case 21: return R.drawable.ic_working_post;
-            default: return R.drawable.ic_dish_post;
+            case 0:
+                return new Pair<>(R.drawable.ic_apartment_post, HashTag.Consumption.HOME.getName());
+            case 1:
+                return new Pair<>(R.drawable.ic_book_post, HashTag.Consumption.BOOK.getName());
+            case 2:
+                return new Pair<>(R.drawable.ic_chef_suit_post, HashTag.Consumption.CLOTHE.getName());
+            case 3:
+                return new Pair<>(R.drawable.ic_coding_post, HashTag.Consumption.PROGRAM.getName());
+            case 4:
+                return new Pair<>(R.drawable.ic_delivery_man_post, HashTag.Consumption.DELIVERY.getName());
+            case 5:
+                return new Pair<>(R.drawable.ic_devices_post, HashTag.Consumption.GADGET.getName());
+            case 7:
+                return new Pair<>(R.drawable.ic_grocery_post, HashTag.Consumption.GROCERY.getName());
+            case 8:
+                return new Pair<>(R.drawable.ic_popcorn_post, HashTag.Consumption.FUN.getName());
+            case 9:
+                return new Pair<>(R.drawable.ic_sport_post, HashTag.Consumption.SPORT.getName());
+            case 10:
+                return new Pair<>(R.drawable.ic_subscribe_post, HashTag.Consumption.SUBSCRIBE.getName());
+            case 11:
+                return new Pair<>(R.drawable.ic_subway_post, HashTag.Consumption.TRANSPORT.getName());
+            case 12:
+                return new Pair<>(R.drawable.ic_utilities_post, HashTag.Consumption.COMMUNAL.getName());
+            case 13:
+                return new Pair<>(R.drawable.ic_bingo_post, HashTag.Income.LOTTERY.getName());
+            case 14:
+                return new Pair<>(R.drawable.ic_business_and_finance_post, HashTag.Income.DEPOSIT.getName());
+            case 15:
+                return new Pair<>(R.drawable.ic_business_post, HashTag.Income.SAVING.getName());
+            case 16:
+                return new Pair<>(R.drawable.ic_medal_post, HashTag.Income.WIN.getName());
+            case 17:
+                return new Pair<>(R.drawable.ic_money_post, HashTag.Income.SALARY.getName());
+            case 18:
+                return new Pair<>(R.drawable.ic_money_transfer_post, HashTag.Income.TRANSFER.getName());
+            case 19:
+                return new Pair<>(R.drawable.ic_scholarship_post, HashTag.Income.GRANT.getName());
+            case 20:
+                return new Pair<>(R.drawable.ic_stock_post, HashTag.Income.TRADING.getName());
+            case 21:
+                return new Pair<>(R.drawable.ic_working_post, HashTag.Income.EXTRA_WORK.getName());
+            default:
+                return new Pair<>(R.drawable.ic_dish_post, HashTag.Consumption.FOOD.getName());
         }
     }
 }

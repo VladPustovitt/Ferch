@@ -43,32 +43,17 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()){
-            case 0:
-                Note note = notes.get(position);
-                ((NoteViewHolder) holder).itemBinding.name.setText(note.getName());
-                ((NoteViewHolder) holder).itemBinding.comment.setText(note.getComment());
-                if (note.getType().equals(TypeNote.INCOME.getName())) {
-                    ((NoteViewHolder) holder).itemBinding.sum.setText("+ " + note.getSum() + " ₽");
-                    ((NoteViewHolder) holder).itemBinding.sum.setTextColor(Color.parseColor("#1C9A21"));
-                } else if (note.getType().equals(TypeNote.CONSUMPTION.getName())) {
-                    ((NoteViewHolder) holder).itemBinding.sum.setText("- " + note.getSum() + " ₽");
-                    ((NoteViewHolder) holder).itemBinding.sum.setTextColor(Color.parseColor("#C90C0C"));
-                }
-
-                ImageView view = ((NoteViewHolder) holder).itemBinding.icon;
-                GradientDrawable drawable = (GradientDrawable) view.getBackground();
-                String colorString = note.getColor();
-                int color = Color.parseColor(colorString);
-                drawable.setColor(color);
-
-                ((NoteViewHolder) holder).itemBinding.icon.setImageResource(note.getIcon());
-                break;
-            case 1:
-                NoteHeader header = (NoteHeader)notes.get(position);
-                ((HeaderViewHolder) holder).headerBinding.headerTitle.setText(header.getName());
-                break;
-        }
+//        switch (holder.getItemViewType()){
+//            case 0:
+//                Note note = notes.get(position);
+//                holder.bind();
+//                break;
+//            case 1:
+//                NoteHeader header = (NoteHeader)notes.get(position);
+//
+//                break;
+//        }
+        ((AbstractViewHolder) holder).bind(notes.get(position));
     }
 
     @Override
@@ -88,8 +73,16 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return 0;
     }
 
-    public static class NoteViewHolder extends RecyclerView.ViewHolder
-    implements View.OnClickListener{
+    public abstract static class AbstractViewHolder extends RecyclerView.ViewHolder{
+
+        public AbstractViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        public abstract void bind(Note note);
+    }
+
+    public static class NoteViewHolder extends AbstractViewHolder implements View.OnClickListener{
         private final NoteItemBinding itemBinding;
 
         public NoteViewHolder(@NonNull NoteItemBinding itemBinding) {
@@ -101,14 +94,38 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void onClick(View v) {
 
         }
+
+        public void bind(Note note){
+            this.itemBinding.name.setText(note.getName());
+            this.itemBinding.comment.setText(note.getComment());
+            if (note.getType().equals(TypeNote.INCOME.getName())) {
+                this.itemBinding.sum.setText("+ " + note.getSum() + " ₽");
+                this.itemBinding.sum.setTextColor(Color.parseColor("#1C9A21"));
+            } else if (note.getType().equals(TypeNote.CONSUMPTION.getName())) {
+                this.itemBinding.sum.setText("- " + note.getSum() + " ₽");
+                this.itemBinding.sum.setTextColor(Color.parseColor("#C90C0C"));
+            }
+            ImageView view = this.itemBinding.icon;
+            GradientDrawable drawable = (GradientDrawable) view.getBackground();
+            String colorString = note.getColor();
+            int color = Color.parseColor(colorString);
+            drawable.setColor(color);
+            this.itemBinding.icon.setImageResource(note.getIcon());
+        }
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder{
+    public static class HeaderViewHolder extends AbstractViewHolder{
         private final DateHeaderBinding headerBinding;
 
         public HeaderViewHolder(@NonNull DateHeaderBinding headerBinding) {
             super(headerBinding.getRoot());
             this.headerBinding = headerBinding;
         }
+
+        @Override
+        public void bind(Note note) {
+            this.headerBinding.headerTitle.setText(((NoteHeader)note).getHeader());
+        }
     }
+
 }

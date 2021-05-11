@@ -16,7 +16,7 @@ public class AddNoteToDatabaseTask extends AsyncTask<Note, Void, Void> {
 
     @Override
     protected Void doInBackground(Note... notes) {
-        database.getNoteDao().insertAll(notes);
+        database.getNoteDao().insertAllNotes(notes);
         return null;
     }
 }

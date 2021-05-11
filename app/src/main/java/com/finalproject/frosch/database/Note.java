@@ -1,10 +1,13 @@
 package com.finalproject.frosch.database;
 
-import androidx.annotation.NonNull;
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
@@ -144,5 +147,26 @@ public class Note {
     @Override
     public int hashCode() {
         return Objects.hash(id, type, name, comment, date, sum, color, icon);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"type\":\"" + type + "\"," +
+                "\"name\":\"" + name + "\"," +
+                "\"comment\":\"" + comment + "\"," +
+                "\"date\":\"" + date + "\","+
+                "\"sum\":\"" + sum + "\"," +
+                "\"color\":\"" + color + "\"," +
+                "\"icon\":\"" + icon + "\"," +
+                "\"hashTag\":\"" + hashTag + "\"" +
+                '}';
+    }
+
+    public static Note fromString(String noteString){
+        Log.e("Note", noteString);
+        Gson gson = new Gson();
+        return gson.fromJson(noteString, Note.class);
     }
 }

@@ -11,6 +11,7 @@ import com.finalproject.frosch.R;
 import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.databinding.MainActivityBinding;
 import com.finalproject.frosch.fragments.HistoryFragment;
+import com.finalproject.frosch.fragments.MonthStatisticFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
                     openFragment(new HistoryFragment());
                     return true;
                 case R.id.statisticMonth:
+                    openFragment(new MonthStatisticFragment());
                     return true;
                 case R.id.statisticYear:
                     return true;
@@ -46,5 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.activity, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(binding.navigation.getSelectedItemId() == R.id.history){
+            finish();
+        } else{
+            binding.navigation.setSelectedItemId(R.id.history);
+        }
     }
 }

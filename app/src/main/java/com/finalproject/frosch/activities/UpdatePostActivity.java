@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaParser;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,16 +20,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import com.finalproject.frosch.R;
-import com.finalproject.frosch.database.HashTag;
-import com.finalproject.frosch.ui.LoaderIconPack;
-import com.finalproject.frosch.utils.convertor.DateConvector;
-import com.finalproject.frosch.utils.exeptions.TimeException;
-import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
 import com.finalproject.frosch.database.AppDatabase;
+import com.finalproject.frosch.database.HashTag;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.AddPostActivityBinding;
+import com.finalproject.frosch.databinding.UpdatePostActivityBinding;
+import com.finalproject.frosch.ui.LoaderIconPack;
+import com.finalproject.frosch.utils.convertor.DateConvector;
 import com.finalproject.frosch.utils.exeptions.StringException;
+import com.finalproject.frosch.utils.exeptions.TimeException;
+import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
+import com.finalproject.frosch.utils.tasks.UpdateNoteTask;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
@@ -44,13 +47,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class AddPostActivity
-        extends AppCompatActivity
+public class UpdatePostActivity extends AppCompatActivity
         implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, ColorPickerDialogListener,
         IconDialog.Callback{
-    protected AddPostActivityBinding binding;
+    private Note note;
+    private UpdatePostActivityBinding uBinding;
     protected AppDatabase database;
     protected final AtomicReference<String> typeAtomic = new AtomicReference<>();
     protected String color;
@@ -64,14 +67,14 @@ public class AddPostActivity
         calendar = Calendar.getInstance();
         initBinding();
         database = AppDatabase.getInstance(this);
-        binding.success.setOnClickListener(v -> {
+        uBinding.success.setOnClickListener(v -> {
             String type = typeAtomic.get();
             if (type == null){
                 type = TypeNote.INCOME.getName();
             }
 
             if (this.color == null){
-                this.color = "#"+Integer.toHexString(Color.BLACK);
+                this.color = note.getColor();
             }
 
             if(this.icon == null){
@@ -82,11 +85,11 @@ public class AddPostActivity
             }
 
             try {
-                String name = Objects.requireNonNull(binding.name.getText()).toString();
-                String comment = Objects.requireNonNull(binding.comment.getText()).toString();
-                String date = Objects.requireNonNull(binding.date.getText()).toString();
-                String time = Objects.requireNonNull(binding.time.getText()).toString();
-                int sum = Integer.parseInt(Objects.requireNonNull(binding.sum.getText()).toString());
+                String name = Objects.requireNonNull(uBinding.name.getText()).toString();
+                String comment = Objects.requireNonNull(uBinding.comment.getText()).toString();
+                String date = Objects.requireNonNull(uBinding.date.getText()).toString();
+                String time = Objects.requireNonNull(uBinding.time.getText()).toString();
+                int sum = Integer.parseInt(Objects.requireNonNull(uBinding.sum.getText()).toString());
 
                 StringException.equalNull(name);
                 StringException.equalNull(comment);
@@ -96,8 +99,16 @@ public class AddPostActivity
                 if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
                     throw new TimeException("Такое время ещё не наступило. Измените дату или время");
 
-                Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color, icon, hashTag);
-                new AddNoteToDatabaseTask(database).execute(note);
+                note.setName(name);
+                note.setComment(comment);
+                note.setDate(DateConvector.dateStringToMs(date+" "+time));
+                note.setSum(sum);
+                note.setType(type);
+                note.setColor(color);
+                note.setIcon(icon);
+                note.setHashTag(hashTag);
+                
+                new UpdateNoteTask(database).execute(note);
 
                 mainActivity();
             } catch (NullPointerException | NumberFormatException e){
@@ -106,69 +117,62 @@ public class AddPostActivity
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        setContentView(binding.getRoot());
+        setContentView(uBinding.getRoot());
     }
 
-    protected void initBinding(){
-        binding = AddPostActivityBinding.inflate(getLayoutInflater());
-        binding.date.setOnClickListener(v -> {
+    protected void initBinding() {
+        uBinding = UpdatePostActivityBinding.inflate(getLayoutInflater());
+        note = Note.fromString(getIntent().getExtras().getString("CURRENT_NOTE"));
+        String dateAndTime = DateConvector.msToDateString(note.getDate());
+        uBinding.name.setText(note.getName());
+        uBinding.comment.setText(note.getComment());
+        String date = dateAndTime.split(" ")[0];
+        this.onDateSet(null,
+                Integer.parseInt(date.split("\\.")[2]),
+                Integer.parseInt(date.split("\\.")[1])-1,
+                Integer.parseInt(date.split("\\.")[0]));
+        uBinding.date.setOnClickListener(v -> {
             DatePickerDialog datePicker = new DatePickerDialog(
-                    AddPostActivity.this, this,
+                    UpdatePostActivity.this, this,
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
             datePicker.show();
         });
-
-        binding.time.setOnClickListener(v ->{
+        String time = dateAndTime.split(" ")[1];
+        this.onTimeSet(null,
+                Integer.parseInt(time.split(":")[1]),
+                Integer.parseInt(time.split(":")[0]));
+        uBinding.time.setOnClickListener(v -> {
             TimePickerDialog timePicker = new TimePickerDialog(
-                    AddPostActivity.this, this,
+                    UpdatePostActivity.this, this,
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),
                     true);
             timePicker.show();
         });
-
-        binding.lastButton.setOnClickListener(this);
-
-        binding.type.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        uBinding.sum.setText(Integer.toString(note.getSum()));
+        uBinding.lastButton.setOnClickListener(this);
+        uBinding.type.setChecked(note.getType().equals(TypeNote.CONSUMPTION.getName()));
+        uBinding.type.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
                 typeAtomic.set(TypeNote.CONSUMPTION.getName());
             } else {
                 typeAtomic.set(TypeNote.INCOME.getName());
             }
         });
-        ((GradientDrawable)this.binding.color.getBackground()).setColor(getResources().getColor(R.color.light_purple));
-        binding.color.setOnClickListener(this);
-        binding.icon.setImageResource(R.drawable.ic_dish_post);
-        binding.icon.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.last_button:
-                mainActivity();
-                break;
-            case R.id.color:
-                createColorPickerDialog();
-                break;
-            case R.id.icon:
-                createIconPickerDialog();
-                break;
-        }
-    }
-
-    protected void createIconPickerDialog() {
-        IconDialog dialog = (IconDialog)getSupportFragmentManager().findFragmentByTag("icon-dialog");
-        IconDialog iconDialog = dialog != null? dialog:
-                IconDialog.newInstance(new IconDialogSettings.Builder().build());
-        iconDialog.show(getSupportFragmentManager(), "icon-dialog");
+//        binding.date.setText(date.split(" ")[0]);
+//        binding.time.setText(date.split(" ")[1]);
+        ((GradientDrawable)uBinding.color.getBackground()).setColor(Color.parseColor(note.getColor()));
+        uBinding.color.setOnClickListener(this);
+        uBinding.icon.setImageResource(note.getIcon());
+        uBinding.icon.setOnClickListener(this);
     }
 
     protected void createColorPickerDialog(){
+        int color = Color.parseColor(note.getColor());
         ColorPickerDialog.newBuilder()
-                .setColor(getResources().getColor(R.color.light_purple))
+                .setColor(color)
                 .setDialogTitle(ColorPickerDialog.TYPE_CUSTOM)
                 .setPresets(getResources().getIntArray(R.array.post_color))
                 .setColorShape(ColorShape.CIRCLE)
@@ -180,11 +184,11 @@ public class AddPostActivity
                 .show(this);
     }
 
-
-    protected void mainActivity(){
-        Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+    protected void createIconPickerDialog() {
+        IconDialog dialog = (IconDialog)getSupportFragmentManager().findFragmentByTag("icon-dialog");
+        IconDialog iconDialog = dialog != null? dialog:
+                IconDialog.newInstance(new IconDialogSettings.Builder().build());
+        iconDialog.show(getSupportFragmentManager(), "icon-dialog");
     }
 
     @Override
@@ -196,7 +200,7 @@ public class AddPostActivity
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        binding.date.setText(
+        uBinding.date.setText(
                 new StringBuilder()
                         .append(DateConvector.addZeros(Integer.toString(dayOfMonth)))
                         .append(".")
@@ -212,10 +216,25 @@ public class AddPostActivity
         }
         Calendar.getInstance().set(Calendar.HOUR_OF_DAY, hourOfDay);
         Calendar.getInstance().set(Calendar.MINUTE, minute);
-        binding.time.setText(new StringBuilder()
+        uBinding.time.setText(new StringBuilder()
                 .append(DateConvector.addZeros(Integer.toString(hourOfDay)))
                 .append(":")
                 .append(DateConvector.addZeros(Integer.toString(minute))));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.last_button:
+                mainActivity();
+                break;
+            case R.id.color:
+                createColorPickerDialog();
+                break;
+            case R.id.icon:
+                createIconPickerDialog();
+                break;
+        }
     }
 
     @Override
@@ -226,8 +245,9 @@ public class AddPostActivity
         }
         switch (dialogId){
             case 0:
-                this.color = "#"+Integer.toHexString(color);
-                ((GradientDrawable)this.binding.color.getBackground()).setColor(color);
+                if(color != 0)
+                    this.color = "#"+Integer.toHexString(color);
+                    ((GradientDrawable)this.uBinding.color.getBackground()).setColor(color);
                 break;
         }
     }
@@ -257,11 +277,17 @@ public class AddPostActivity
             Pair<Integer, String> iconAndHashTag = LoaderIconPack.getResourceIdAndHashTagByIconId(icon.getId());
             this.icon = iconAndHashTag.first;
             this.hashTag = iconAndHashTag.second;
-            binding.icon.setImageResource(this.icon);
+            uBinding.icon.setImageResource(this.icon);
         } else if (list.size() == 0){
             Toast.makeText(this, "Выберите иконку", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Надо выбрать ОДНУ иконку", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected void mainActivity(){
+        Intent intent = new Intent(UpdatePostActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

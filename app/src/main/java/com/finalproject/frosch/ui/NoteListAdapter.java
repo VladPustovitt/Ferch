@@ -2,6 +2,7 @@ package com.finalproject.frosch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -14,11 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.finalproject.frosch.R;
+import com.finalproject.frosch.activities.UpdatePostActivity;
 import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.DateHeaderBinding;
 import com.finalproject.frosch.databinding.NoteItemBinding;
+import com.finalproject.frosch.fragments.HistoryFragment;
 import com.finalproject.frosch.utils.tasks.DeleteNoteInDatabaseTask;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -80,6 +83,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void bind(Note note){
+            int position = adapter.notes.indexOf(note);
             this.itemBinding.name.setText(note.getName());
             this.itemBinding.comment.setText(note.getComment());
             if (note.getType().equals(TypeNote.INCOME.getName())) {
@@ -102,6 +106,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         .setItems(items, ((dialog, which) -> {
                             switch (which){
                                 case 0:
+                                    Intent intent = new Intent(v.getContext(), UpdatePostActivity.class);
+                                    intent.putExtra("CURRENT_NOTE", note.toString());
+                                    v.getContext().startActivity(intent);
                                     break;
                                 case 1:
                                     new DeleteNoteInDatabaseTask(AppDatabase.getInstance(v.getContext()))
@@ -109,6 +116,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                     this.adapter.notes.remove(note);
                                     NoteHeader.removeUnlessHeader(this.adapter.notes);
                                     this.adapter.notifyDataSetChanged();
+                                    break;
                             }
                         }))
                         .show();

@@ -25,14 +25,14 @@ import java.util.concurrent.ExecutionException;
 public class HistoryFragment extends Fragment {
     private HistoryFragmentBinding historyBinding;
     private NoteListAdapter noteAdapter;
-    private LinkedList<Note> noteList;
     private AppDatabase database;
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         historyBinding = HistoryFragmentBinding.inflate(inflater, container, false);
         database = AppDatabase.getInstance(inflater.getContext());
         setUpRecyclerView(inflater);
@@ -44,7 +44,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void setUpRecyclerView(@NonNull LayoutInflater inflater){
-        noteList = new LinkedList<>();
+        LinkedList<Note> noteList = new LinkedList<>();
         try {
             noteList = new LinkedList<>(
                     new DownloadDatabaseTask().execute(database).get());
@@ -54,13 +54,8 @@ public class HistoryFragment extends Fragment {
 
         NoteHeader.addNoteHeadersInList(noteList);
 
-        if (historyBinding.historyList.getAdapter() == null){
-            noteAdapter = new NoteListAdapter(noteList);
-            historyBinding.historyList.setLayoutManager(
-                    new LinearLayoutManager(inflater.getContext()));
-            historyBinding.historyList.setAdapter(noteAdapter);
-        } else {
-            noteAdapter.notifyDataSetChanged();
-        }
+        noteAdapter = new NoteListAdapter(noteList);
+        historyBinding.historyList.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
+        historyBinding.historyList.setAdapter(noteAdapter);
     }
 }

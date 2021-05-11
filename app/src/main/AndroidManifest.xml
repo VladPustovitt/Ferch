@@ -18,6 +18,8 @@
         <activity
             android:name="com.finalproject.frosch.activities.AddPostActivity"
             android:theme="@style/Theme.FinanceApp" />
+        <activity android:name=".activities.UpdatePostActivity"
+            android:theme="@style/Theme.FinanceApp"/>
     </application>
 
 </manifest>

@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Locale;
 
 public class DateConvector {
@@ -65,7 +67,6 @@ public class DateConvector {
         String[] dateArray = date.split("\\.");
         String newDate = dateArray[0] + " " + numToMonth(Integer.parseInt(dateArray[1]));
         String currentDate = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-        Log.d("Current year", currentDate);
         if(!dateArray[2].equals(currentDate)) newDate += " " + dateArray[2];
         if(newDate.charAt(0) == '0') newDate = newDate.substring(1);
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
@@ -73,5 +74,15 @@ public class DateConvector {
         String day = sdf.format(d);
         newDate += ", " + cutDayOfMonth(day);
         return newDate;
+    }
+
+    public static ArrayList<String> getListOfMonthWithYear(ArrayList<Long> list){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM.yyyy");
+        ArrayList<String> monthWithYear = new ArrayList<>();
+        for(Long dateMs: list){
+            String dateString = sdf.format(new Date(dateMs));
+            if (!monthWithYear.contains(dateString)) monthWithYear.add(dateString);
+        }
+        return monthWithYear;
     }
 }

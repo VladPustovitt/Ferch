@@ -19,4 +19,6 @@
     <string name="color_picker_dialog_title">Выберите цвет</string>
     <string name="icon">icon</string>
     <string name="choose_action">Выберите действие</string>
+    <string name="update">Изменить</string>
+    <string name="update_post">Изменить запись</string>
 </resources>

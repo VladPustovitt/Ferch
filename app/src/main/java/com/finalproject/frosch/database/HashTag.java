@@ -21,8 +21,8 @@ public class HashTag{
         public final static Consumption DELIVERY = new Consumption("Доставка");
         public final static Consumption GADGET = new Consumption("Гаджет");
         public final static Consumption FOOD = new Consumption("Еда");
-        public final static Consumption GROCERY = new Consumption("Продуктовый магазин");
-        public final static Consumption FUN = new Consumption("Развлечение");
+        public final static Consumption GROCERY = new Consumption("Магазин");
+        public final static Consumption FUN = new Consumption("Веселье");
         public final static Consumption SPORT = new Consumption("Спорт");
         public final static Consumption SUBSCRIBE = new Consumption("Подписка");
         public final static Consumption TRANSPORT = new Consumption("Транспорт");
@@ -34,14 +34,11 @@ public class HashTag{
             super(name);
         }
 
-        public final static Income LOTTERY = new Income("Лотерея");
         public final static Income DEPOSIT = new Income("Вклад");
         public final static Income SAVING = new Income("Сбережения");
         public final static Income WIN = new Income("Победа в конкурсе");
         public final static Income SALARY = new Income("Зарплата");
         public final static Income TRANSFER = new Income("Перевод");
-        public final static Income GRANT = new Income("Грант");
-        public final static Income TRADING = new Income("Трейдерство");
-        public final static Income EXTRA_WORK = new Income("Доп. работа");
+
     }
 }

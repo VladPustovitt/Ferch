@@ -12,10 +12,4 @@
         app:showAsAction="ifRoom"
         android:title="@string/statistic_month"
         android:icon="@drawable/ic_statisticmonth"/>
-
-    <item
-        android:id="@+id/statisticYear"
-        app:showAsAction="ifRoom"
-        android:title="@string/statistic_year"
-        android:icon="@drawable/ic_statisticyear"/>
 </menu>

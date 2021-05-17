@@ -27,8 +27,6 @@ public class HistoryFragment extends Fragment {
     private NoteListAdapter noteAdapter;
     private AppDatabase database;
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

@@ -48,7 +48,7 @@ public class AddPostActivity
         extends AppCompatActivity
         implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener, ColorPickerDialogListener,
+        TimePickerDialog.OnTimeSetListener,
         IconDialog.Callback{
     protected AddPostActivityBinding binding;
     protected AppDatabase database;
@@ -70,13 +70,12 @@ public class AddPostActivity
                 type = TypeNote.INCOME.getName();
             }
 
-            if (this.color == null){
-                this.color = "#"+Integer.toHexString(Color.BLACK);
+            if(this.icon == null){
+                Pair<Integer, Integer> icon_color = LoaderIconPack.getResourceIdAndHashTagByIconId(-1).first;
+                this.icon = icon_color.first;
+                this.color = "#" + Integer.toHexString(getResources().getColor(icon_color.second));
             }
 
-            if(this.icon == null){
-                this.icon = LoaderIconPack.getResourceIdAndHashTagByIconId(-1).first;
-            }
             if(this.hashTag == null){
                 this.hashTag = HashTag.Consumption.FOOD.getName();
             }
@@ -138,10 +137,12 @@ public class AddPostActivity
                 typeAtomic.set(TypeNote.INCOME.getName());
             }
         });
-        ((GradientDrawable)this.binding.color.getBackground()).setColor(getResources().getColor(R.color.light_purple));
-        binding.color.setOnClickListener(this);
+        ((GradientDrawable)this.binding.icon.getBackground()).setColor(
+                getResources().getColor(LoaderIconPack.getResourceIdAndHashTagByIconId(-1).first.second));
         binding.icon.setImageResource(R.drawable.ic_dish_post);
         binding.icon.setOnClickListener(this);
+        String category = "Категория: " + LoaderIconPack.getResourceIdAndHashTagByIconId(-1).second;
+        binding.category.setText(category);
     }
 
     @Override
@@ -149,9 +150,6 @@ public class AddPostActivity
         switch (v.getId()){
             case R.id.last_button:
                 mainActivity();
-                break;
-            case R.id.color:
-                createColorPickerDialog();
                 break;
             case R.id.icon:
                 createIconPickerDialog();
@@ -165,21 +163,6 @@ public class AddPostActivity
                 IconDialog.newInstance(new IconDialogSettings.Builder().build());
         iconDialog.show(getSupportFragmentManager(), "icon-dialog");
     }
-
-    protected void createColorPickerDialog(){
-        ColorPickerDialog.newBuilder()
-                .setColor(getResources().getColor(R.color.light_purple))
-                .setDialogTitle(ColorPickerDialog.TYPE_CUSTOM)
-                .setPresets(getResources().getIntArray(R.array.post_color))
-                .setColorShape(ColorShape.CIRCLE)
-                .setDialogId(0)
-                .setDialogTitle(R.string.color_picker_dialog_title)
-                .setAllowPresets(false)
-                .setAllowCustom(false)
-                .setShowColorShades(false)
-                .show(this);
-    }
-
 
     protected void mainActivity(){
         Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
@@ -218,25 +201,6 @@ public class AddPostActivity
                 .append(DateConvector.addZeros(Integer.toString(minute))));
     }
 
-    @Override
-    public void onColorSelected(int dialogId, int color) {
-        if(this.getCurrentFocus() != null){
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-        }
-        switch (dialogId){
-            case 0:
-                this.color = "#"+Integer.toHexString(color);
-                ((GradientDrawable)this.binding.color.getBackground()).setColor(color);
-                break;
-        }
-    }
-
-    @Override
-    public void onDialogDismissed(int dialogId) {
-        Log.d("AddPostActivity", "onDialogDismissed() called with id ["+dialogId+"]");
-    }
-
     @org.jetbrains.annotations.Nullable
     @Override
     public IconPack getIconDialogIconPack() {
@@ -254,10 +218,15 @@ public class AddPostActivity
         }
         if(list.size() == 1){
             Icon icon = list.get(0);
-            Pair<Integer, String> iconAndHashTag = LoaderIconPack.getResourceIdAndHashTagByIconId(icon.getId());
-            this.icon = iconAndHashTag.first;
+            Pair<Pair<Integer, Integer>, String> iconAndHashTag =
+                    LoaderIconPack.getResourceIdAndHashTagByIconId(icon.getId());
+            this.icon = iconAndHashTag.first.first;
+            this.color = "#"+Integer.toHexString(getResources().getColor(iconAndHashTag.first.second));
             this.hashTag = iconAndHashTag.second;
             binding.icon.setImageResource(this.icon);
+            ((GradientDrawable)binding.icon.getBackground()).setColor(Color.parseColor(color));
+            String category = "Категория: "+hashTag;
+            binding.category.setText(category);
         } else if (list.size() == 0){
             Toast.makeText(this, "Выберите иконку", Toast.LENGTH_SHORT).show();
         } else {

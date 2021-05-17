@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.statisticMonth:
                     openFragment(new MonthStatisticFragment());
                     return true;
-                case R.id.statisticYear:
-                    return true;
             }
             return false;
         });

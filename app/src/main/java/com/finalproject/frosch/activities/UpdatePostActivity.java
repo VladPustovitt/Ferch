@@ -55,7 +55,7 @@ public class UpdatePostActivity extends AppCompatActivity
     private Note note;
     private UpdatePostActivityBinding uBinding;
     protected AppDatabase database;
-    protected final AtomicReference<String> typeAtomic = new AtomicReference<>();
+    protected AtomicReference<String> typeAtomic = new AtomicReference<>();
     protected String color;
     protected Integer icon;
     protected String hashTag;
@@ -160,10 +160,14 @@ public class UpdatePostActivity extends AppCompatActivity
                 typeAtomic.set(TypeNote.INCOME.getName());
             }
         });
-        ((GradientDrawable)uBinding.icon.getBackground()).setColor(Color.parseColor(note.getColor()));
-        uBinding.icon.setImageResource(note.getIcon());
+        this.color = note.getColor();
+        this.icon = note.getIcon();
+        this.typeAtomic = new AtomicReference<>(note.getType());
+        ((GradientDrawable)uBinding.icon.getBackground()).setColor(Color.parseColor(this.color));
+        uBinding.icon.setImageResource(this.icon);
+        this.hashTag = note.getHashTag();
         uBinding.icon.setOnClickListener(this);
-        String category = "Категория: " + note.getHashTag();
+        String category = "Категория: " + this.hashTag;
         uBinding.category.setText(category);
     }
 

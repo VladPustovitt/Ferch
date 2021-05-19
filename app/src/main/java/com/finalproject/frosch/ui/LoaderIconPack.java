@@ -26,7 +26,8 @@ public class LoaderIconPack{
 
     private IconPack loadIconPack() {
         IconPackLoader loader = new IconPackLoader(this.context);
-        iconPack = loader.load(R.xml.icons_post, 0, Collections.singletonList(Locale.ENGLISH), null);
+        iconPack = loader.load(R.xml.icons_post, 0,
+                Collections.singletonList(Locale.ENGLISH), null);
         iconPack.loadDrawables(loader.getDrawableLoader());
         return iconPack;
     }

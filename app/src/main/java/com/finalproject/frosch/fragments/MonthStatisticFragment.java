@@ -26,11 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MonthStatisticFragment extends Fragment {
+public class MonthStatisticFragment extends Fragment
+implements View.OnClickListener {
     private MonthStatisticFragmentBinding binding;
     private AppDatabase database;
     private ArrayList<Long> dateMsList;
     private ArrayList<Note> notesFromPeriod;
+    private Long currentMonth;
 
 
     @Nullable
@@ -38,36 +40,29 @@ public class MonthStatisticFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = MonthStatisticFragmentBinding.inflate(inflater, container, false);
         database = AppDatabase.getInstance(inflater.getContext());
+
         try {
             dateMsList = new GetAllDateTask().execute(database).get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        ArrayList<String> monthWithYear = DateConvector.getListOfMonthWithYear(dateMsList);
-
-        Long date1 = DateConvector.dateStringToMs("01."+monthWithYear.get(0) + " 00:00");
-        Long date2 = DateConvector.dateStringToMs("01."+ "0"+(Integer.parseInt(monthWithYear.get(0).split("\\.")[0]) + 1) + ".2021 00:00") - 1;
-
-        try {
-            GetNotesFromPeriodTask task = new GetNotesFromPeriodTask(database);
-            Pair<Long, Long> period = new Pair<>(date1, date2);
-            notesFromPeriod = task.execute(period).get();
-        } catch (ExecutionException | InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
-        binding.month.setText(monthWithYear.get(0));
-        List<PieEntry> list = new ArrayList<>();
+        if (dateMsList != null){
+            currentMonth = dateMsList.get(0);
 
-        for(Note note: notesFromPeriod){
-            list.add(new PieEntry(note.getSum(), note));
+            
         }
 
-        PieDataSet set = new PieDataSet(list, "Test");
-        set.setColors(getResources().getIntArray(R.array.post_color));
-        PieData data = new PieData(set);
-        binding.chart.setData(data);
-        binding.chart.invalidate();
         return binding.getRoot();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.previous:
+                return;
+            case R.id.next:
+                return;
+        }
     }
 }

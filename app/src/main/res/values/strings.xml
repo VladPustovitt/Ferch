@@ -4,7 +4,6 @@
     <string name="statistic_year">Год</string>
     <string name="statistic_month">Месяц</string>
     <string name="pig_bank">Копилка</string>
-    <string name="settings">Настройки</string>
     <string name="user">Пользователь</string>
     <string name="name_post">Название</string>
     <string name="comment_post">Комментарий</string>
@@ -21,4 +20,17 @@
     <string name="choose_action">Выберите действие</string>
     <string name="update">Изменить</string>
     <string name="update_post">Изменить запись</string>
+    <string name="settings">Настройки</string>
+
+    <array name="entries">
+        <item>Рубль ₽</item>
+        <item>Доллар $</item>
+        <item>Евро €</item>
+    </array>
+
+    <array name="entry_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
 </resources>

@@ -1,9 +1,11 @@
 package com.finalproject.frosch.activities;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -12,6 +14,7 @@ import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.databinding.MainActivityBinding;
 import com.finalproject.frosch.fragments.HistoryFragment;
 import com.finalproject.frosch.fragments.MonthStatisticFragment;
+import com.finalproject.frosch.fragments.SettingsFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,9 +37,18 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.statisticMonth:
                     openFragment(new MonthStatisticFragment());
                     return true;
+                case R.id.settings:
+//                    openFragment(new SettingsFragment());
+                    Toast.makeText(MainActivity.this, "Настройки в разработке", Toast.LENGTH_SHORT).show();
+                    return true;
             }
             return false;
         });
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) binding.activity.getLayoutParams();
+        params.setMargins(0, 0, 0, binding.navigation.getHeight());
+        binding.activity.setLayoutParams(params);
+
         setContentView(binding.getRoot());
     }
 

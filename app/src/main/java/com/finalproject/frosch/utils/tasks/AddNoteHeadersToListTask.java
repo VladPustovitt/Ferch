@@ -3,7 +3,7 @@ package com.finalproject.frosch.utils.tasks;
 import android.os.AsyncTask;
 
 import com.finalproject.frosch.database.Note;
-import com.finalproject.frosch.ui.NoteHeader;
+import com.finalproject.frosch.ui.history.NoteHeader;
 
 import java.util.LinkedList;
 

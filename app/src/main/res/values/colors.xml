@@ -27,13 +27,26 @@
     <color name="light_blue_2">#00BCD4</color>
     <color name="food">#009688</color>
 
-    <array name="post_color">
-        <item>@color/income</item>
-        <item>@color/consumption</item>
+    <array name="consumption">
+        <item>@color/orange</item>
+        <item>@color/day</item>
         <item>@color/light_purple</item>
+        <item>@color/night</item>
         <item>@color/light_blue</item>
-        <item>@color/green</item>
-        <item>@color/toolbar_color</item>
+        <item>@color/consumption</item>
+        <item>@color/salat</item>
+        <item>@color/current_color</item>
+        <item>@color/blue</item>
         <item>@color/red</item>
+        <item>@color/dark_gray</item>
+        <item>@color/raspberry</item>
+        <item>@color/food</item>
+    </array>
+
+    <array name="income">
+        <item>@color/green</item>
+        <item>@color/pink</item>
+        <item>@color/income</item>
+        <item>@color/light_blue_2</item>
     </array>
 </resources>

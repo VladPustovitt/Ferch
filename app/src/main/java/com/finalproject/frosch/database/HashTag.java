@@ -1,5 +1,9 @@
 package com.finalproject.frosch.database;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class HashTag{
     static class Type{
         final String name;
@@ -27,6 +31,15 @@ public class HashTag{
         public final static Consumption SUBSCRIBE = new Consumption("Подписка");
         public final static Consumption TRANSPORT = new Consumption("Транспорт");
         public final static Consumption COMMUNAL = new Consumption("ЖКХ");
+
+        public static ArrayList<String> getNames() {
+            List<String> l = Arrays.asList(
+                    HOME.name, BOOK.name, CLOTHE.name, PROGRAM.name, DELIVERY.name,
+                    GADGET.name, FOOD.name, GROCERY.name, FUN.name, SPORT.name,
+                    SUBSCRIBE.name, TRANSPORT.name, COMMUNAL.name
+            );
+            return new ArrayList<>(l);
+        }
     }
 
     public static class Income extends Type{
@@ -40,5 +53,12 @@ public class HashTag{
         public final static Income SALARY = new Income("Зарплата");
         public final static Income TRANSFER = new Income("Перевод");
 
+        public static ArrayList<String> getNames() {
+            List<String> l = Arrays.asList(
+                    DEPOSIT.name, SAVING.name, WIN.name, SALARY.name, TRANSFER.name
+            );
+
+            return new ArrayList<>(l);
+        }
     }
 }

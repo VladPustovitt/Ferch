@@ -1,11 +1,9 @@
-package com.finalproject.frosch.ui;
+package com.finalproject.frosch.ui.history;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.DateHeaderBinding;
 import com.finalproject.frosch.databinding.NoteItemBinding;
-import com.finalproject.frosch.fragments.HistoryFragment;
 import com.finalproject.frosch.utils.tasks.DeleteNoteInDatabaseTask;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 

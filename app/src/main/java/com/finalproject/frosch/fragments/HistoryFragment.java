@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.finalproject.frosch.activities.AddPostActivity;
-import com.finalproject.frosch.ui.NoteHeader;
-import com.finalproject.frosch.ui.NoteListAdapter;
+import com.finalproject.frosch.ui.history.NoteHeader;
+import com.finalproject.frosch.ui.history.NoteListAdapter;
 import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.utils.tasks.DownloadDatabaseTask;
 import com.finalproject.frosch.database.Note;
@@ -24,7 +24,6 @@ import java.util.concurrent.ExecutionException;
 
 public class HistoryFragment extends Fragment {
     private HistoryFragmentBinding historyBinding;
-    private NoteListAdapter noteAdapter;
     private AppDatabase database;
 
     @Nullable
@@ -52,7 +51,7 @@ public class HistoryFragment extends Fragment {
 
         NoteHeader.addNoteHeadersInList(noteList);
 
-        noteAdapter = new NoteListAdapter(noteList);
+        NoteListAdapter noteAdapter = new NoteListAdapter(noteList);
         historyBinding.historyList.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
         historyBinding.historyList.setAdapter(noteAdapter);
     }

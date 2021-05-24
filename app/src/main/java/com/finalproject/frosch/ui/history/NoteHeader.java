@@ -1,4 +1,4 @@
-package com.finalproject.frosch.ui;
+package com.finalproject.frosch.ui.history;
 
 import androidx.annotation.NonNull;
 
@@ -6,11 +6,7 @@ import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.utils.convertor.DateConvector;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.LinkedList;
-import java.util.Locale;
 
 public class NoteHeader extends Note {
     private final String header;

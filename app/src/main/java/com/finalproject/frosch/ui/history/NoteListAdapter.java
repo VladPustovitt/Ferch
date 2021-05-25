@@ -97,7 +97,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
                         Integer.parseInt(valute));
 
-                if(valute.equals("1")) text += " $";
+                if(valute.equals("0")) text += " ₽";
+                else if(valute.equals("1")) text += " $";
                 else if(valute.equals("2")) text += " €";
 
                 this.itemBinding.sum.setText(text);

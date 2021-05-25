@@ -51,7 +51,7 @@ public class HistoryFragment extends Fragment {
 
         NoteHeader.addNoteHeadersInList(noteList);
 
-        NoteListAdapter noteAdapter = new NoteListAdapter(noteList);
+        NoteListAdapter noteAdapter = new NoteListAdapter(noteList, getActivity());
         historyBinding.historyList.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
         historyBinding.historyList.setAdapter(noteAdapter);
     }

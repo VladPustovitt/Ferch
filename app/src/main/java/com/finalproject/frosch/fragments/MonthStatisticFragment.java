@@ -1,5 +1,7 @@
 package com.finalproject.frosch.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.MonthStatisticFragmentBinding;
 import com.finalproject.frosch.ui.statistic.PieChartListAdapter;
 import com.finalproject.frosch.utils.convertor.DateConvector;
+import com.finalproject.frosch.utils.convertor.valuteconvertor.ValuteConvector;
 import com.finalproject.frosch.utils.tasks.GetAllDateTask;
 import com.finalproject.frosch.utils.tasks.GetHashTagsTask;
 import com.finalproject.frosch.utils.tasks.GetNotesFromPeriodTask;
@@ -69,9 +72,13 @@ implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if(dateList.size() == 0){
+            Toast.makeText(getContext(), "Сделайте первую запись", Toast.LENGTH_SHORT).show();
+            return;
+        }
         switch (v.getId()){
             case R.id.previous:
-                if(idCurrentMonth + 1 == dateList.size()){
+                if(idCurrentMonth + 1 > dateList.size()){
                     Toast.makeText(getContext(), "Это последний месяц", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -136,6 +143,9 @@ implements View.OnClickListener {
                     sum += note.getSum();
             }
         }
-        return sum;
+
+        SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String valute = preferences.getString("valute", "0");
+        return new ValuteConvector(getActivity()).convertFromRub(sum, Integer.parseInt(valute));
     }
 }

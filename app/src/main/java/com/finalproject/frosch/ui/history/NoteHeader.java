@@ -12,7 +12,7 @@ public class NoteHeader extends Note {
     private final String header;
 
     public NoteHeader(String header){
-        super(TypeNote.HEADER.getName(), header, TypeNote.HEADER.getName(), 0, 0L, "", 0, "");
+        super(TypeNote.HEADER.getName(), header, TypeNote.HEADER.getName(), (float) 0.0, 0L, "", 0, "");
         this.header = header;
     }
 

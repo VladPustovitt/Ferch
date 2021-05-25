@@ -29,7 +29,7 @@ public class Note {
     private Long date;
 
     @ColumnInfo(name="sum")
-    private int sum;
+    private Float sum;
 
     @ColumnInfo(name="color")
     private String color;
@@ -54,10 +54,10 @@ public class Note {
         this.icon = icon;
     }
 
-    public int getSum() {
+    public Float getSum() {
         return sum;
     }
-    public void setSum(int sum) {
+    public void setSum(Float sum) {
         this.sum = sum;
     }
 
@@ -104,7 +104,7 @@ public class Note {
     }
 
     public Note(int id, String type, String name, String comment,
-                int sum, Long date, String color, int icon, String hashTag) {
+                Float sum, Long date, String color, int icon, String hashTag) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -118,7 +118,7 @@ public class Note {
 
     @Ignore
     public Note(String type, String name, String comment,
-                int sum, Long date, String color, int icon, String hashTag) {
+                Float sum, Long date, String color, int icon, String hashTag) {
         this.type = type;
         this.name = name;
         this.comment = comment;

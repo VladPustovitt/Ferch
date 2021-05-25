@@ -1,7 +1,10 @@
 package com.finalproject.frosch.ui.history;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import com.finalproject.frosch.database.Note;
 import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.DateHeaderBinding;
 import com.finalproject.frosch.databinding.NoteItemBinding;
+import com.finalproject.frosch.utils.convertor.valuteconvertor.ValuteConvector;
 import com.finalproject.frosch.utils.tasks.DeleteNoteInDatabaseTask;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -26,9 +30,11 @@ import java.util.LinkedList;
 
 public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final LinkedList<Note> notes;
+    private final Activity activity;
 
-    public NoteListAdapter(LinkedList<Note> notes) {
+    public NoteListAdapter(LinkedList<Note> notes, Activity activity) {
         this.notes = notes;
+        this.activity = activity;
     }
 
     @NonNull
@@ -80,14 +86,32 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void bind(Note note){
+
+            SharedPreferences preferences = adapter.activity.getPreferences(Context.MODE_PRIVATE);
+            String valute = preferences.getString("valute", "0");
             int position = adapter.notes.indexOf(note);
             this.itemBinding.name.setText(note.getName());
             this.itemBinding.comment.setText(note.getComment());
             if (note.getType().equals(TypeNote.INCOME.getName())) {
-                this.itemBinding.sum.setText("+ " + note.getSum() + " ₽");
+                String text = "+ ";
+                text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
+                        Integer.parseInt(valute));
+
+                if(valute.equals("1")) text += " $";
+                else if(valute.equals("2")) text += " €";
+
+                this.itemBinding.sum.setText(text);
                 this.itemBinding.sum.setTextColor(Color.parseColor("#1C9A21"));
             } else if (note.getType().equals(TypeNote.CONSUMPTION.getName())) {
-                this.itemBinding.sum.setText("- " + note.getSum() + " ₽");
+                String text = "- ";
+                text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
+                        Integer.parseInt(valute));
+
+                if(valute.equals("0")) text += " ₽";
+                else if(valute.equals("1")) text += " $";
+                else if(valute.equals("2")) text += " €";
+
+                this.itemBinding.sum.setText(text);
                 this.itemBinding.sum.setTextColor(Color.parseColor("#C90C0C"));
             }
             ImageView view = this.itemBinding.icon;

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.finalproject.frosch.database.TypeNote;
 import com.finalproject.frosch.databinding.UpdatePostActivityBinding;
 import com.finalproject.frosch.ui.LoaderIconPack;
 import com.finalproject.frosch.utils.convertor.DateConvector;
+import com.finalproject.frosch.utils.convertor.valuteconvertor.ValuteConvector;
 import com.finalproject.frosch.utils.exeptions.StringException;
 import com.finalproject.frosch.utils.exeptions.TimeException;
 import com.finalproject.frosch.utils.tasks.UpdateNoteTask;
@@ -81,7 +83,7 @@ public class UpdatePostActivity extends AppCompatActivity
                 String comment = Objects.requireNonNull(uBinding.comment.getText()).toString();
                 String date = Objects.requireNonNull(uBinding.date.getText()).toString();
                 String time = Objects.requireNonNull(uBinding.time.getText()).toString();
-                int sum = Integer.parseInt(Objects.requireNonNull(uBinding.sum.getText()).toString());
+                Float sum = Float.parseFloat(Objects.requireNonNull(uBinding.sum.getText()).toString());
 
                 StringException.equalNull(name);
                 StringException.equalNull(comment);
@@ -90,6 +92,10 @@ public class UpdatePostActivity extends AppCompatActivity
 
                 if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
                     throw new TimeException("Такое время ещё не наступило. Измените дату или время");
+
+                SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+                String valute = preferences.getString("valute", "0");
+                sum = new ValuteConvector(UpdatePostActivity.this).convertToRub(sum, Integer.parseInt(valute));
 
                 note.setName(name);
                 note.setComment(comment);
@@ -143,7 +149,7 @@ public class UpdatePostActivity extends AppCompatActivity
                     true);
             timePicker.show();
         });
-        String sum = Integer.toString(note.getSum());
+        String sum = Float.toString(note.getSum());
         uBinding.sum.setText(sum);
         uBinding.lastButton.setOnClickListener(this);
         uBinding.type.setChecked(note.getType().equals(TypeNote.CONSUMPTION.getName()));

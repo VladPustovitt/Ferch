@@ -14,6 +14,8 @@ import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.databinding.MainActivityBinding;
 import com.finalproject.frosch.fragments.HistoryFragment;
 import com.finalproject.frosch.fragments.MonthStatisticFragment;
+import com.finalproject.frosch.fragments.SettingsFragment;
+import com.finalproject.frosch.utils.convertor.valuteconvertor.ValuteConvector;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -67,4 +69,11 @@ public class MainActivity extends AppCompatActivity {
             binding.navigation.setSelectedItemId(R.id.history);
         }
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        ValuteConvector convector = new ValuteConvector(this);
+//        convector.getValCurs();
+//    }
 }

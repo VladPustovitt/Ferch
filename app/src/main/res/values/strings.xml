@@ -22,15 +22,15 @@
     <string name="update_post">Изменить запись</string>
     <string name="settings">Настройки</string>
 
-    <array name="entries">
+    <string-array name="entries">
         <item>Рубль ₽</item>
         <item>Доллар $</item>
         <item>Евро €</item>
-    </array>
+    </string-array>
 
-    <array name="entry_values">
+    <string-array name="entry_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-    </array>
+    </string-array>
 </resources>

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.finalproject.frosch.R;
 import com.finalproject.frosch.database.HashTag;
 import com.finalproject.frosch.ui.LoaderIconPack;
 import com.finalproject.frosch.utils.convertor.DateConvector;
+import com.finalproject.frosch.utils.convertor.valuteconvertor.ValuteConvector;
 import com.finalproject.frosch.utils.exeptions.TimeException;
 import com.finalproject.frosch.utils.tasks.AddNoteToDatabaseTask;
 import com.finalproject.frosch.database.AppDatabase;
@@ -81,7 +83,7 @@ public class AddPostActivity
                 String comment = Objects.requireNonNull(binding.comment.getText()).toString();
                 String date = Objects.requireNonNull(binding.date.getText()).toString();
                 String time = Objects.requireNonNull(binding.time.getText()).toString();
-                int sum = Integer.parseInt(Objects.requireNonNull(binding.sum.getText()).toString());
+                Float sum = Float.parseFloat(Objects.requireNonNull(binding.sum.getText()).toString());
 
                 StringException.equalNull(name);
                 StringException.equalNull(comment);
@@ -90,6 +92,11 @@ public class AddPostActivity
 
                 if(DateConvector.dateStringToMs(date+" "+time) > Calendar.getInstance().getTimeInMillis())
                     throw new TimeException("Такое время ещё не наступило. Измените дату или время");
+
+                SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+                String valute = preferences.getString("valute", "0");
+
+                sum = new ValuteConvector(AddPostActivity.this).convertToRub(sum, Integer.parseInt(valute));
 
                 Note note = new Note(type, name, comment, sum, DateConvector.dateStringToMs(date + " " + time), color, icon, hashTag);
                 new AddNoteToDatabaseTask(database).execute(note);

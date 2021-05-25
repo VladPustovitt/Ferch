@@ -78,7 +78,7 @@ implements View.OnClickListener {
         }
         switch (v.getId()){
             case R.id.previous:
-                if(idCurrentMonth + 1 > dateList.size()){
+                if(idCurrentMonth + 1 >= dateList.size()){
                     Toast.makeText(getContext(), "Это последний месяц", Toast.LENGTH_SHORT).show();
                     return;
                 }

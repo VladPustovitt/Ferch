@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinanceApp"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.finalproject.frosch.activities.MainActivity">
+        <activity android:name="com.finalproject.frosch.activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,9 +21,11 @@
         </activity>
         <activity
             android:name="com.finalproject.frosch.activities.AddPostActivity"
-            android:theme="@style/Theme.FinanceApp" />
+            android:theme="@style/Theme.FinanceApp"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.UpdatePostActivity"
-            android:theme="@style/Theme.FinanceApp"/>
+            android:theme="@style/Theme.FinanceApp"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

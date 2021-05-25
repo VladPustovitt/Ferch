@@ -93,38 +93,38 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             this.itemBinding.name.setText(note.getName());
             this.itemBinding.comment.setText(note.getComment());
             if (note.getType().equals(TypeNote.INCOME.getName())) {
-                String text = "+ ";
+                String text = "+";
                 text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
                         Integer.parseInt(valute));
 
                 switch (valute) {
                     case "0":
-                        text += " ₽";
+                        text += "₽";
                         break;
                     case "1":
-                        text += " $";
+                        text += "$";
                         break;
                     case "2":
-                        text += " €";
+                        text += "€";
                         break;
                 }
 
                 this.itemBinding.sum.setText(text);
                 this.itemBinding.sum.setTextColor(Color.parseColor("#1C9A21"));
             } else if (note.getType().equals(TypeNote.CONSUMPTION.getName())) {
-                String text = "- ";
+                String text = "-";
                 text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
                         Integer.parseInt(valute));
 
                 switch (valute) {
                     case "0":
-                        text += " ₽";
+                        text += "₽";
                         break;
                     case "1":
-                        text += " $";
+                        text += "$";
                         break;
                     case "2":
-                        text += " €";
+                        text += "€";
                         break;
                 }
 

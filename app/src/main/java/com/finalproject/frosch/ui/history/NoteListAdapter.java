@@ -97,9 +97,17 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
                         Integer.parseInt(valute));
 
-                if(valute.equals("0")) text += " ₽";
-                else if(valute.equals("1")) text += " $";
-                else if(valute.equals("2")) text += " €";
+                switch (valute) {
+                    case "0":
+                        text += " ₽";
+                        break;
+                    case "1":
+                        text += " $";
+                        break;
+                    case "2":
+                        text += " €";
+                        break;
+                }
 
                 this.itemBinding.sum.setText(text);
                 this.itemBinding.sum.setTextColor(Color.parseColor("#1C9A21"));
@@ -108,9 +116,17 @@ public class NoteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 text += new ValuteConvector(adapter.activity).convertFromRub(note.getSum(),
                         Integer.parseInt(valute));
 
-                if(valute.equals("0")) text += " ₽";
-                else if(valute.equals("1")) text += " $";
-                else if(valute.equals("2")) text += " €";
+                switch (valute) {
+                    case "0":
+                        text += " ₽";
+                        break;
+                    case "1":
+                        text += " $";
+                        break;
+                    case "2":
+                        text += " €";
+                        break;
+                }
 
                 this.itemBinding.sum.setText(text);
                 this.itemBinding.sum.setTextColor(Color.parseColor("#C90C0C"));

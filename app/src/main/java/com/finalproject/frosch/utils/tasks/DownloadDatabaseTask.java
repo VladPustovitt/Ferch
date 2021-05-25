@@ -6,7 +6,6 @@ import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.database.Note;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class DownloadDatabaseTask extends AsyncTask<AppDatabase, Void, ArrayList<Note>> {
 

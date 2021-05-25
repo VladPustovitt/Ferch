@@ -14,7 +14,6 @@ import com.finalproject.frosch.database.AppDatabase;
 import com.finalproject.frosch.databinding.MainActivityBinding;
 import com.finalproject.frosch.fragments.HistoryFragment;
 import com.finalproject.frosch.fragments.MonthStatisticFragment;
-import com.finalproject.frosch.fragments.SettingsFragment;
 
 
 public class MainActivity extends AppCompatActivity {

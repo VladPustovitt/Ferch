@@ -1,14 +1,11 @@
 package com.finalproject.frosch.utils.convertor;
 
-import android.util.Log;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.Locale;
 
 public class DateConvector {
